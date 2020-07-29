@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1051313510215",
+    "firebase_url": "https://wegive-98433.firebaseio.com",
+    "project_id": "wegive-98433",
+    "storage_bucket": "wegive-98433.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051313510215:android:8ac5b00f14243222e21e62",
+        "android_client_info": {
+          "package_name": "com.example.wegive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051313510215-qt7bg594gauran3sso04hdvckg9h1oh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgYoXcne6Qe_euYXRurHk-kPtbXzlhFTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051313510215-qt7bg594gauran3sso04hdvckg9h1oh8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
