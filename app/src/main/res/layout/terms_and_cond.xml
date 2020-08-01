@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFCFF"
+    tools:context=".SettingsTerms"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/wallettopbar" />
+
+    <TextView
+        android:id="@+id/termsPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="36dp"
+        android:text="Terms and Conditions"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="15dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="23dp"
+        app:layout_constraintEnd_toStartOf="@+id/termsPage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backshape" />
+
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="560dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView22">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/by_downloading_or_using_the_app_these_terms_will_automatically_apply_to_you_you_should_make_sure_therefore_that_you_read_them_carefully_before_using_the_app_you_re_not_allowed_to_copy_or_modify_the_app_any_part_of_the_app_or_our_trademarks_in_any_way_you_re_not_allowed_to_attempt_to_extract_the_source_code_of_the_app_and_you_also_shouldn_t_try_to_translate_the_app_into_other_languages_or_make_derivative_versions_the_app_itself_and_all_the_trade_marks_copyright_database_rights_and_other_intellectual_property_rights_related_to_it_still_belong_to_matan_kazarov_amos_tal_adam_ginton_n_n_matan_kazarov_amos_tal_adam_ginton_is_committed_to_ensuring_that_the_app_is_as_useful_and_efficient_as_possible_for_that_reason_we_reserve_the_right_to_make_changes_to_the_app_or_to_charge_for_its_services_at_any_time_and_for_any_reason_we_will_never_charge_you_for_the_app_or_its_services_without_making_it_very_clear_to_you_exactly_what_you_re_paying_for_n_n_the_wegive_app_stores_and_processes_personal_data_that_you_have_provided_to_us_in_order_to_provide_my_service_it_s_your_responsibility_to_keep_your_phone_and_access_to_the_app_secure_we_therefore_recommend_that_you_do_not_jailbreak_or_root_your_phone_which_is_the_process_of_removing_software_restrictions_and_limitations_imposed_by_the_official_operating_system_of_your_device_it_could_make_your_phone_vulnerable_to_malware_viruses_malicious_programs_compromise_your_phone_s_security_features_and_it_could_mean_that_the_wegive_app_won_t_work_properly_or_at_all_n_you_should_be_aware_that_there_are_certain_things_that_matan_kazarov_amos_tal_adam_ginton_will_not_take_responsibility_for_certain_functions_of_the_app_will_require_the_app_to_have_an_active_internet_connection_the_connection_can_be_wi_fi_or_provided_by_your_mobile_network_provider_but_matan_kazarov_amos_tal_adam_ginton_cannot_take_responsibility_for_the_app_not_working_at_full_functionality_if_you_don_t_have_access_to_wi_fi_and_you_don_t_have_any_of_your_data_allowance_left_n_if_you_re_using_the_app_outside_of_an_area_with_wi_fi_you_should_remember_that_your_terms_of_the_agreement_with_your_mobile_network_provider_will_still_apply_as_a_result_you_may_be_charged_by_your_mobile_provider_for_the_cost_of_data_for_the_duration_of_the_connection_while_accessing_the_app_or_other_third_party_charges_in_using_the_app_you_re_accepting_responsibility_for_any_such_charges_including_roaming_data_charges_if_you_use_the_app_outside_of_your_home_territory_i_e_region_or_country_without_turning_off_data_roaming_if_you_are_not_the_bill_payer_for_the_device_on_which_you_re_using_the_app_please_be_aware_that_we_assume_that_you_have_received_permission_from_the_bill_payer_for_using_the_app_n_along_the_same_lines_matan_kazarov_amos_tal_adam_ginton_cannot_always_take_responsibility_for_the_way_you_use_the_app_i_e_you_need_to_make_sure_that_your_device_stays_charged_if_it_runs_out_of_battery_and_you_can_t_turn_it_on_to_avail_the_service_matan_kazarov_amos_tal_adam_ginton_cannot_accept_responsibility_n_with_respect_to_matan_kazarov_amos_tal_adam_ginton_s_responsibility_for_your_use_of_the_app_when_you_re_using_the_app_it_s_important_to_bear_in_mind_that_although_we_endeavour_to_ensure_that_it_is_updated_and_correct_at_all_times_we_do_rely_on_third_parties_to_provide_information_to_us_so_that_we_can_make_it_available_to_you_matan_kazarov_amos_tal_adam_ginton_accepts_no_liability_for_any_loss_direct_or_indirect_you_experience_as_a_result_of_relying_wholly_on_this_functionality_of_the_app_n_at_some_point_we_may_wish_to_update_the_app_the_app_is_currently_available_on_android_ios_the_requirements_for_both_systems_and_for_any_additional_systems_we_decide_to_extend_the_availability_of_the_app_to_may_change_and_you_ll_need_to_download_the_updates_if_you_want_to_keep_using_the_app_matan_kazarov_amos_tal_adam_ginton_does_not_promise_that_it_will_always_update_the_app_so_that_it_is_relevant_to_you_and_or_works_with_the_android_ios_version_that_you_have_installed_on_your_device_however_you_promise_to_always_accept_updates_to_the_application_when_offered_to_you_we_may_also_wish_to_stop_providing_the_app_and_may_terminate_use_of_it_at_any_time_without_giving_notice_of_termination_to_you_unless_we_tell_you_otherwise_upon_any_termination_a_the_rights_and_licenses_granted_to_you_in_these_terms_will_end_b_you_must_stop_using_the_app_and_if_needed_delete_it_from_your_device_n_n_changes_to_this_terms_and_conditions_n_n_i_may_update_our_terms_and_conditions_from_time_to_time_thus_you_are_advised_to_review_this_page_periodically_for_any_changes_i_will_notify_you_of_any_changes_by_posting_the_new_terms_and_conditions_on_this_page_n_these_terms_and_conditions_are_effective_as_of_2020_07_29_n_n_contact_us_n_n_if_you_have_any_questions_or_suggestions_about_my_terms_and_conditions_do_not_hesitate_to_contact_me"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
