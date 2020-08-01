@@ -11,7 +11,16 @@
 
     <EditText
         android:layout_marginTop="16dp"
-        android:id="@+id/et_username"
+        android:id="@+id/et_firstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Name" />
+
+    <EditText
+        android:layout_marginTop="16dp"
+        android:id="@+id/et_lastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

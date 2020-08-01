@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
 
     fun onRegisterClicked(view: View) {
         //Validation checking
-        if(TextUtils.isEmpty(et_username.text.toString())){
+        if(TextUtils.isEmpty(et_lastName.text.toString())){
             Toast.makeText(applicationContext,"Enter Username!",Toast.LENGTH_LONG).show()
         }
         if(TextUtils.isEmpty(et_email_registerActvity.text.toString())){
@@ -83,7 +83,8 @@ class RegisterActivity : AppCompatActivity() {
                     //database.child(userId.toString()).setValue(User(username.text.toString(), emailAddress.toString()))
 
                     //Creating a new user
-                    val myUser=User(et_username.text.toString(),emailAddress!!)
+                    //val myUser=User(et_lastName.text.toString(),emailAddress!!)
+                    val myUser = User(et_firstName.text.toString(), et_lastName.text.toString(),emailAddress!!)
 
                     //Writing data into database using setValue() method
                     //mFirebaseDatabase!!.child(userId!!).setValue(myUser)

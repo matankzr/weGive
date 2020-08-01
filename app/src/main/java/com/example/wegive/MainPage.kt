@@ -53,11 +53,13 @@ class MainPage : AppCompatActivity() {
         docRef?.get()?.addOnSuccessListener { documentSnapshot ->
             val user=documentSnapshot.toObject(User::class.java)
 
-            Log.e(TAG,"user data is changed"+user?.name+", "+user?.email)
+            Log.e(TAG,"user data is changed"+user?.firstName+", "+user?.email)
 
             //Display newly updated name and email
 
-            tv_helloPerson.setText("Hello " + user?.name)
+            tv_helloPerson.setText("Hello " + user?.firstName)
+            tv_totalDonations.setText(user?.TotalDonations.toString())
+            tv_weGiveCoins.setText(user?.myCoins.toString())
           //  tv_amount_profile.setText("Points: "+user?.coins)
             //txt_user.setText(user?.name+", "+user?.email)
 
