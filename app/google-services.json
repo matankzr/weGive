@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1051313510215:android:8ac5b00f14243222e21e62",
+        "mobilesdk_app_id": "1:1051313510215:android:aa60743189618d65e21e62",
         "android_client_info": {
           "package_name": "com.example.wegive"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1051313510215-64pv4h38kj1qgb9oba7iso4ne2p58snv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wegive",
+            "certificate_hash": "144f7d00537a6bbf812f037999c6897e71ded280"
+          }
+        },
         {
           "client_id": "1051313510215-qt7bg594gauran3sso04hdvckg9h1oh8.apps.googleusercontent.com",
           "client_type": 3
