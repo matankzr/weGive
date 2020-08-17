@@ -12,14 +12,14 @@
         android:layout_height="12dp"
         android:layout_marginTop="18dp"
         android:tint="#5C636E"
-        app:layout_constraintEnd_toStartOf="@+id/ttl_wgc3"
+        app:layout_constraintEnd_toStartOf="@+id/tv_totalDonated_walletPage"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_td2"
         app:srcCompat="@drawable/shekelsign" />
 
     <TextView
-        android:id="@+id/ttl_wgc3"
+        android:id="@+id/tv_totalDonated_walletPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <TextView
-        android:id="@+id/ttl_wgc2"
+        android:id="@+id/tv_availableCoins_walletPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -113,7 +113,7 @@
         android:layout_height="12dp"
         android:layout_marginTop="18dp"
         android:tint="#5C636E"
-        app:layout_constraintEnd_toStartOf="@+id/ttl_wgc2"
+        app:layout_constraintEnd_toStartOf="@+id/tv_availableCoins_walletPage"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/tv_wgc2"
@@ -158,7 +158,7 @@
         android:scaleType="fitXY"
         app:layout_constraintEnd_toStartOf="@+id/btn_cat_two"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
         app:srcCompat="@drawable/walleton" />
 
     <ImageButton
@@ -169,7 +169,7 @@
         android:background="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
         app:srcCompat="@drawable/walletoff" />
 
     <ImageButton
@@ -181,7 +181,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toEndOf="@+id/btn_cat_two"
-        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
         app:srcCompat="@drawable/walletfavoff" />
 
     <androidx.cardview.widget.CardView

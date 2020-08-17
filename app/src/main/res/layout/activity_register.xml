@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="#2F74E8"
+    android:orientation="vertical"
     tools:context=".RegisterActivity">
 
     <EditText
+        android:id="@+id/et_userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName" />
+
+    <EditText
         android:id="@+id/et_firstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Name" />
+        android:hint="First Name"
+        android:inputType="textPersonName" />
 
     <EditText
-        android:layout_marginTop="16dp"
         android:id="@+id/et_lastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Name" />
+        android:hint="Last Name"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/et_email_registerActvity"
@@ -37,19 +46,19 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:layout_marginTop="16dp"
         android:id="@+id/et_password_registerActvity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword" />
 
     <Button
-        android:layout_marginTop="16dp"
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:onClick="onRegisterClicked"
         android:text="Register" />
 
@@ -65,6 +74,6 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

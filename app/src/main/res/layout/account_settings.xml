@@ -167,12 +167,11 @@
         app:srcCompat="@drawable/line" />
 
     <TextView
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/tv_userName_accountSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="19dp"
         android:ems="10"
-        android:hint="@string/matankzr"
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textSize="16sp"
@@ -181,13 +180,12 @@
         app:layout_constraintTop_toTopOf="@+id/imageView16" />
 
     <TextView
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/tv_firstName_accountSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="19dp"
         android:ems="10"
 
-        android:hint="@string/matan"
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textSize="16sp"
@@ -196,13 +194,12 @@
         app:layout_constraintTop_toTopOf="@+id/imageView17" />
 
     <TextView
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/tv_lastName_accountSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="19dp"
         android:ems="10"
 
-        android:hint="@string/kazarov"
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textSize="16sp"
@@ -211,13 +208,12 @@
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
     <TextView
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/tv_email_accountSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="19dp"
         android:ems="10"
 
-        android:hint="@string/matankzr_gmail_com"
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textSize="16sp"

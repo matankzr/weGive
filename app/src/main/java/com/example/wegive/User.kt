@@ -11,6 +11,8 @@ class User{
     var totalAmountGiven: Int = 0
     var myCoins: Int = 0
     var TotalDonations: Int = 0
+    lateinit var userName: String
+
 // Total amount given
     //Number of donations made
     //Number of causes donated to
@@ -23,7 +25,8 @@ class User{
 
     }
 
-    constructor(firstName: String, lastName: String, email: String){
+    constructor(userName: String, firstName: String, lastName: String, email: String){
+        this.userName = userName
         this.firstName = firstName
         this.lastName = lastName
         this.email = email

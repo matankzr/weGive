@@ -12,21 +12,12 @@ import kotlinx.android.synthetic.main.activity_settings_page.*
 private const val TAG = "SettingsPage"
 class SettingsPage : AppCompatActivity() {
 
-    private var mFirebaseDatabaseInstance: FirebaseFirestore?=null
-    private var userId:String?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_page)
 
-        mFirebaseDatabaseInstance= FirebaseFirestore.getInstance()
-
-        val user= FirebaseAuth.getInstance().currentUser
-        //add it only if it is not saved to database
-        if (user != null) {
-            userId=user.uid
-            Log.e(TAG,"User data is null")
-        }
 
 
         btn_back.setOnClickListener(object: View.OnClickListener {
