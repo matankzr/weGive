@@ -96,6 +96,19 @@ class DonationFormActivity : AppCompatActivity() {
     private fun updateUserDocument(docRef: DocumentReference?, recvAmount: Float) {
         docRef?.update("totalDonations", FieldValue.increment(1))
 
+        docRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "Document data: ${document.data}")
+                    val oldAmountGiven = document.get("totalAmountGiven").toString().toInt()
+                    val amountToAdd = recvAmount.roundToInt()
+                    docRef.update("totalAmountGiven",oldAmountGiven+amountToAdd)
+                } else {
+                    Log.d(TAG, "No such document!")
+                }
+            }
+            ?.addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
+
         //https://bezkoder.com/kotlin-convert-string-to-int-long-float-double/
     }
 

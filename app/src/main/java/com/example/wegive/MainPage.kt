@@ -9,8 +9,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main_page.*
 
+
+
+
 private const val TAG="MainPage"
 class MainPage : AppCompatActivity() {
+
+
+    ////////
+    //Links for recyclerView
+    //https://www.youtube.com/watch?v=qva5ve_A8Co
+    //https://www.youtube.com/watch?v=vpObpZ5MYSE
+
+
+    /////////////////////
 
     private lateinit var mFirebaseDatabaseInstance: FirebaseFirestore
     private var userId:String?=null
