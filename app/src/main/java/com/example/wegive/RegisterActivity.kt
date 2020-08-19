@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -90,7 +91,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     //Creating a new user
                     //val myUser=User(et_lastName.text.toString(),emailAddress!!)
-                    val myUser = User(et_userName.text.toString(), et_firstName.text.toString(), et_lastName.text.toString(),emailAddress!!)
+                    val myUser = User(emailAddress!!,et_userName.text.toString(), et_firstName.text.toString(), et_lastName.text.toString())
 
                     //Writing data into database using setValue() method
                     //mFirebaseDatabase!!.child(userId!!).setValue(myUser)
@@ -98,6 +99,12 @@ class RegisterActivity : AppCompatActivity() {
                     //Try writing to Firestore
                     mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)?.set(myUser)
 
+                    val docRef=mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
+
+//                    val dummy = hashMapOf(
+//                        "dummyField" to null
+//                    )
+//                    docRef?.collection("donations")?.add(dummy)
 
                     startActivity(Intent(this,LoginScreen::class.java))
                     finish()

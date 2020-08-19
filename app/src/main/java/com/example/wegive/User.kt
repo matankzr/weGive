@@ -21,9 +21,8 @@ class User{
 
     //Default constructor required for calls to
     //DataSnapshot.getValue(User.class)
-    constructor(){
 
-    }
+    constructor(){ }
 
     constructor(userName: String, firstName: String, lastName: String, email: String){
         this.userName = userName
