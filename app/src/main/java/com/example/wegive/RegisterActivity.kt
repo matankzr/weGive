@@ -16,10 +16,6 @@ class RegisterActivity : AppCompatActivity() {
 
 
     private var mAuth: FirebaseAuth?=null
-    //Creating member variables of FirebaseDatabase and DatabaseReference
-//    private var mFirebaseDatabaseInstances: FirebaseDatabase?=null
-//    private var mFirebaseDatabase: DatabaseReference?=null
-
     private var mFirebaseFirestoreInstances: FirebaseFirestore?=null
 
     //Creating member variable for userId and emailAddress
@@ -75,11 +71,6 @@ class RegisterActivity : AppCompatActivity() {
                 // When the sign-in is failed, a message to the user is displayed. If the sign-in is successful, auth state listener will get notified, and logic to handle the signed-in user can be handled in the listener.
                 if(task.isSuccessful){
 
-                    //Getting reference to ?users? node
-                    //mFirebaseDatabase=mFirebaseDatabaseInstances!!.getReference("users")
-                    //var database = FirebaseDatabase.getInstance().reference
-
-
                     //Getting current user from FirebaseAuth
                     val user= FirebaseAuth.getInstance().currentUser
 
@@ -87,25 +78,16 @@ class RegisterActivity : AppCompatActivity() {
                     userId=user!!.uid
                     emailAddress=user.email
 
-                    //database.child(userId.toString()).setValue(User(username.text.toString(), emailAddress.toString()))
 
                     //Creating a new user
                     //val myUser=User(et_lastName.text.toString(),emailAddress!!)
                     val myUser = User(emailAddress!!,et_userName.text.toString(), et_firstName.text.toString(), et_lastName.text.toString())
 
-                    //Writing data into database using setValue() method
-                    //mFirebaseDatabase!!.child(userId!!).setValue(myUser)
 
                     //Try writing to Firestore
                     mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)?.set(myUser)
 
                     val docRef=mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
-
-//                    val dummy = hashMapOf(
-//                        "dummyField" to null
-//                    )
-//                    docRef?.collection("donations")?.add(dummy)
-
                     startActivity(Intent(this,LoginScreen::class.java))
                     finish()
                 }else{

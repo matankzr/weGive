@@ -52,21 +52,12 @@ class SettingsAccount : AppCompatActivity() {
             Log.i(TAG, "Just entered addOnSuccessListener")
             val user=documentSnapshot.toObject(User::class.java)
 
-            //Log.e(TAG,"user data is: "+user?.firstName+", "+user?.email)
-
             //Display newly updated name and email
-
             tv_userName_accountSettings.setText(user?.userName)
             tv_firstName_accountSettings.setText(user?.firstName)
             tv_lastName_accountSettings.setText(user?.lastName)
             tv_email_accountSettings.setText(user?.email)
-            //tv_weGiveCoins.setText(user?.myCoins.toString())
-            //  tv_amount_profile.setText("Points: "+user?.coins)
-            //txt_user.setText(user?.name+", "+user?.email)
 
-            //Clear edit text
-//            email.setText(user?.email)
-//            username.setText(user?.name)
         }
     }
 }

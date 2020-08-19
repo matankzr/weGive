@@ -18,8 +18,6 @@ class SettingsPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings_page)
 
-
-
         btn_back.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@SettingsPage, MainPage::class.java)
