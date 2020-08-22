@@ -81,7 +81,8 @@ class RegisterActivity : AppCompatActivity() {
 
                     //Creating a new user
                     //val myUser=User(et_lastName.text.toString(),emailAddress!!)
-                    val myUser = User(emailAddress!!,et_userName.text.toString(), et_firstName.text.toString(), et_lastName.text.toString())
+                    //val myUser = User(emailAddress!!,et_userName.text.toString(), et_firstName.text.toString(), et_lastName.text.toString())
+                    val myUser = createUser(emailAddress!!)
 
 
                     //Try writing to Firestore
@@ -95,5 +96,15 @@ class RegisterActivity : AppCompatActivity() {
                     Log.e("MyTag",task.exception.toString())
                 }
             }
+    }
+
+    private fun createUser(emailAddress: String): Any {
+        var user = User().apply {
+            email = emailAddress
+            userName = et_userName.text.toString()
+            firstName = et_firstName.text.toString()
+            lastName = et_lastName.text.toString()
+        }
+        return user
     }
 }
