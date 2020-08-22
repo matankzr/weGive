@@ -30,6 +30,7 @@ class MainPage : AppCompatActivity() {
     private var userId:String?=null
     //create data source for donations
     private lateinit var donations: MutableList<Donation>
+    private lateinit var adapter: DonationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,12 @@ class MainPage : AppCompatActivity() {
     private fun listenToDonations(userRef: DocumentReference) {
         val donationsReference = userRef.collection("donations")
 
+        adapter = DonationAdapter(this, donations)
+        recyclerView_MainPage.adapter = adapter
+        recyclerView_MainPage.layoutManager = LinearLayoutManager(this)
+
         Log.i(TAG, "Found donationsReference: ${donationsReference}")
+
         donationsReference.addSnapshotListener { snapshot, exception ->
             Log.i(TAG, "Inside donationsReference.addSnapshotListener")
 
@@ -86,9 +92,18 @@ class MainPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
+
             if (snapshot != null) {
-                for (document in snapshot.documents){
-                    Log.i(TAG, "Donation: ${document.id}: ${document.data}")
+//                for (document in snapshot.documents){
+//                    Log.i(TAG, "Donation: ${document.id}: ${document.data}")
+//                }
+
+                val donationsList = snapshot.toObjects(Donation::class.java)
+                donations.clear()
+                donations.addAll(donationsList)
+                adapter.notifyDataSetChanged()
+                for (donation in donationsList){
+                    Log.i(TAG, "Donation: ${donation}")
                 }
             }
         }
