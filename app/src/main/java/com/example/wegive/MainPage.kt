@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.wegive.model.FirestoreUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -30,7 +29,6 @@ class MainPage : AppCompatActivity() {
     private var userId:String?=null
     //create data source for donations
     private lateinit var donations: MutableList<Donation>
-    private lateinit var myFireStoreObject: FirestoreUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
