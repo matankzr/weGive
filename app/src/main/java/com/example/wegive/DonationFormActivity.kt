@@ -2,7 +2,6 @@ package com.example.wegive
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
@@ -14,7 +13,6 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_donation_form.*
-import java.lang.reflect.Field
 import kotlin.math.roundToInt
 
 
@@ -22,8 +20,9 @@ private const val TAG = "DonationFormActivity"
 
 class DonationFormActivity : AppCompatActivity() {
 
-    private var mFirebaseDatabaseInstance: FirebaseFirestore? = null
-    private var userId: String? = null
+    private lateinit var mFirebaseDatabaseInstance: FirebaseFirestore
+    private lateinit var userRef: DocumentReference
+    private lateinit var userId: String
 
     lateinit var etReceiverID: EditText
     lateinit var etReceiverAmount: EditText
@@ -51,6 +50,8 @@ class DonationFormActivity : AppCompatActivity() {
         if (user != null) {
             userId = user.uid
         }
+       userRef = mFirebaseDatabaseInstance.collection("users").document(userId)
+
 
         btn_donate_donationForm.setOnClickListener {
             Log.i(TAG, "Donate Button Clicked!")
@@ -77,8 +78,6 @@ class DonationFormActivity : AppCompatActivity() {
 
         Log.i(TAG, "ReceiverID: ${recvId}, Amount: " + recvAmount + ", Memo: ${memo}")
 
-        val docRef = mFirebaseDatabaseInstance?.collection("users")?.document(userId!!)
-
         val donation = hashMapOf(
             "receiver_id" to recvId,
             "donation_amount" to recvAmount,
@@ -87,13 +86,27 @@ class DonationFormActivity : AppCompatActivity() {
             "favorite" to favorite
         )
 
-        docRef?.collection("donations")?.add(donation)
-        updateUserDocument(docRef, recvAmount);
+        userRef.collection("donations").add(donation)
+        updateUserDocument(userRef, recvAmount);
+
+        if (favorite)
+            addReceiverToFavorites(recvId)
+
         val intent = Intent(this@DonationFormActivity, MainPage::class.java)
         startActivity(intent);
         finish()
 
         //https://code.luasoftware.com/tutorials/google-cloud-firestore/firestore-partial-update/
+    }
+
+    private fun addReceiverToFavorites(recvId: String) {
+        Log.i(TAG, "called addReceiverToFavorites")
+
+        val fav = hashMapOf(
+            "cause" to recvId
+        )
+
+        userRef.collection("favorites").document(recvId).set(fav)
     }
 
     private fun updateUserDocument(docRef: DocumentReference?, recvAmount: Float) {

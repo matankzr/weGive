@@ -71,8 +71,6 @@ class MainPage : AppCompatActivity() {
                 startActivity(intent);
             }
         })
-
-       // getDataOnce()
     }
 
     private fun listenToDonations(userRef: DocumentReference) {
@@ -94,10 +92,6 @@ class MainPage : AppCompatActivity() {
 
 
             if (snapshot != null) {
-//                for (document in snapshot.documents){
-//                    Log.i(TAG, "Donation: ${document.id}: ${document.data}")
-//                }
-
                 val donationsList = snapshot.toObjects(Donation::class.java)
                 donations.clear()
                 donations.addAll(donationsList)
