@@ -1,5 +1,13 @@
 package com.example.wegive
 
+//
+//data class User(val userName: String, val email: String, val firstName: String, val lastName: String,
+//                val totalAmountGiven: Int, val myCoins: Int, val totalNumOfDonations: Int){
+//
+//    constructor(): this("", "", "","",0,0,0)
+//}
+
+
 class User{
 
     lateinit var userName: String

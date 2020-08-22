@@ -137,7 +137,7 @@
         app:srcCompat="@drawable/abc_vector_test" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDonations"
+        android:id="@+id/recyclerView_MainPage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
@@ -159,7 +159,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvDonations"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_MainPage"
         app:srcCompat="@drawable/ic_home"
         />
 
@@ -173,7 +173,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_home"
-        app:layout_constraintTop_toBottomOf="@+id/rvDonations"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_MainPage"
         app:srcCompat="@drawable/ic_search" />
 
     <ImageButton
@@ -186,7 +186,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_search"
-        app:layout_constraintTop_toBottomOf="@+id/rvDonations"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_MainPage"
         app:srcCompat="@drawable/ic_scan" />
 
     <ImageButton
@@ -199,7 +199,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_scan"
-        app:layout_constraintTop_toBottomOf="@+id/rvDonations"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_MainPage"
         app:srcCompat="@drawable/ic_wallet" />
 
     <ImageButton
@@ -214,7 +214,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_wallet"
-        app:layout_constraintTop_toBottomOf="@+id/rvDonations"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_MainPage"
         app:srcCompat="@drawable/ic_settings" />
 
     <ImageView

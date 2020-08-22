@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wegive.model.FirestoreUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -26,16 +28,16 @@ class MainPage : AppCompatActivity() {
 
     private lateinit var mFirebaseDatabaseInstance: FirebaseFirestore
     private var userId:String?=null
-
     //create data source for donations
     private lateinit var donations: MutableList<Donation>
+    private lateinit var myFireStoreObject: FirestoreUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+        Log.i(TAG, "Inside MainPage onCreate")
 
         donations = mutableListOf()
-
         mFirebaseDatabaseInstance= FirebaseFirestore.getInstance()
 
         val user= FirebaseAuth.getInstance().currentUser
@@ -46,25 +48,38 @@ class MainPage : AppCompatActivity() {
         }
 
         val userRef = mFirebaseDatabaseInstance.collection("users").document(userId!!)
-        val donationsReference = userRef.collection("donations")
 
-
-        Log.i(TAG, "Found donationsReference: ${donationsReference}")
-        donationsReference.addSnapshotListener { snapshot, exception ->
-            Log.i(TAG, "Inside donationsReference.addSnapshotListener")
-
-            if (exception!= null || snapshot == null){
-                Log.e(TAG, "Exception when querying donations", exception)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null) {
-                for (document in snapshot.documents){
-                    Log.i(TAG, "Donation: ${document.id}: ${document.data}")
+        userRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "Document data: ${document.data}")
+                    tv_helloPerson.setText("Hello " + document.get("firstName").toString())
+                    tv_totalDonations.setText(document.get("totalAmountGiven").toString())
+                    tv_weGiveCoins.setText(document.get("myCoins").toString())
+                } else {
+                    Log.d(TAG, "No such document!")
                 }
             }
-        }
+            .addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
 
+        val donationsReference = userRef.collection("donations")
+
+//
+//        Log.i(TAG, "Found donationsReference: ${donationsReference}")
+//        donationsReference.addSnapshotListener { snapshot, exception ->
+//            Log.i(TAG, "Inside donationsReference.addSnapshotListener")
+//
+//            if (exception!= null || snapshot == null){
+//                Log.e(TAG, "Exception when querying donations", exception)
+//                return@addSnapshotListener
+//            }
+//
+//            if (snapshot != null) {
+//                for (document in snapshot.documents){
+//                    Log.i(TAG, "Donation: ${document.id}: ${document.data}")
+//                }
+//            }
+//        }
 
         btn_settings.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View): Unit {
@@ -85,7 +100,7 @@ class MainPage : AppCompatActivity() {
             }
         })
 
-        getDataOnce()
+       // getDataOnce()
     }
 
     private fun getDataOnce() {

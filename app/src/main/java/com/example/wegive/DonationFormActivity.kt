@@ -1,5 +1,6 @@
 package com.example.wegive
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -88,6 +89,8 @@ class DonationFormActivity : AppCompatActivity() {
 
         docRef?.collection("donations")?.add(donation)
         updateUserDocument(docRef, recvAmount);
+        val intent = Intent(this@DonationFormActivity, MainPage::class.java)
+        startActivity(intent);
         finish()
 
         //https://code.luasoftware.com/tutorials/google-cloud-firestore/firestore-partial-update/

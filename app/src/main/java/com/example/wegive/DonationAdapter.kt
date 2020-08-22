@@ -13,6 +13,24 @@ import kotlinx.android.synthetic.main.listviewrow_donations.view.*
 
 //https://www.youtube.com/watch?v=dxBhn0j8kws&t=1s
 
+class DonationAdapter : RecyclerView.Adapter<DonationAdapter.ViewHolder>(){
+    class ViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.listviewrow_donations, parent, false)
+        return ViewHolder(view);
+    }
+
+    override fun getItemCount() = 2
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        TODO("Not yet implemented")
+    }
+
+}
+
 //class DonationAdapter(val mContext: Context,val layoutResId: Int, val donationList: List<Donation>): ArrayAdapter<Donation>(mContext, layoutResId, donationList){
 //
 //    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
