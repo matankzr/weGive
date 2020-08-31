@@ -2,7 +2,7 @@ package com.example.wegive
 
 //
 data class User(var userName: String = "", var email: String= "", var firstName: String= "", var lastName: String= "",
-                var totalAmountGiven: Int=0, var myCoins: Int=0, var totalNumOfDonations: Int=0){
+                var totalAmountGiven: Int=0, var myCoins: Int=0, var totalNumberOfDonations: Int=0){
     override fun toString(): String {
         return "$userName $firstName $lastName"
     }

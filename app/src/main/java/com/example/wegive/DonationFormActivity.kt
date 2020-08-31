@@ -29,6 +29,7 @@ class DonationFormActivity : AppCompatActivity() {
     lateinit var etMemo: EditText
     lateinit var sendButton: Button
     lateinit var favorite: CheckBox
+    var numIds: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,18 @@ class DonationFormActivity : AppCompatActivity() {
             userId = user.uid
         }
        userRef = mFirebaseDatabaseInstance.collection("users").document(userId)
+
+        userRef.get().addOnSuccessListener { document->
+            if (document != null){
+                numIds = document.getLong("totalNumberOfDonations")?.toInt() ?: 0
+                Log.d(TAG, "numIds is now: ${numIds}")
+            } else{
+                Log.d(TAG, "no such document")
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
 
 
         btn_donate_donationForm.setOnClickListener {
@@ -86,11 +99,17 @@ class DonationFormActivity : AppCompatActivity() {
             "favorite" to favorite
         )
 
-        userRef.collection("donations").add(donation)
-        updateUserDocument(userRef, recvAmount);
-
         if (favorite)
             addReceiverToFavorites(recvId)
+
+//        userRef.collection("donations").add(donation)
+        userRef.collection("donations").document(numIds.toString()).set(donation)
+
+
+
+        updateUserDocument(userRef, recvAmount);
+
+
 
         val intent = Intent(this@DonationFormActivity, MainPage::class.java)
         startActivity(intent);
@@ -106,11 +125,28 @@ class DonationFormActivity : AppCompatActivity() {
             "cause" to recvId
         )
 
-        userRef.collection("favorites").document(recvId).set(fav)
+
+        val dbInsance = userRef.collection("favorites").document(recvId)
+
+        dbInsance.get()
+            .addOnSuccessListener {
+                if (it.exists()){
+                    Log.d(TAG, "already in favorites!")
+                    userRef.collection("favorites").document(recvId).update("donationNumbersForCause",FieldValue.arrayUnion(numIds))
+                } else{
+                    Log.d(TAG, "not in favorites!")
+                    userRef.collection("favorites").document(recvId).set(fav)
+                    userRef.collection("favorites").document(recvId).update("donationNumbersForCause",FieldValue.arrayUnion(numIds))
+                }
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "checkIfRecvIdInFavorites encounted failure")
+            }
+
     }
 
     private fun updateUserDocument(docRef: DocumentReference?, recvAmount: Float) {
-        docRef?.update("totalDonations", FieldValue.increment(1))
+        docRef?.update("totalNumberOfDonations", FieldValue.increment(1))
 
         docRef?.get()
             ?.addOnSuccessListener { document ->

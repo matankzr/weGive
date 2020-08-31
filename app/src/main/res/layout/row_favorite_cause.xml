@@ -12,31 +12,33 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/tv_amount_donationItem"
+
+            android:id="@+id/tv_cause_Favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="cause"
+            android:textSize="18sp" />
+
+        <TextView
+
+            android:id="@+id/tv_amount_Favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+
             android:layout_marginEnd="8dp"
             android:text="amount"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_forWho_donationItem"
+            android:id="@+id/tv_numOfDonations_Favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_toEndOf="@id/tv_forWho_donationItem"
-            android:text="For who"
-            android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_date_donationItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/tv_forWho_donationItem"
-            android:text="Date"
+            android:text="Number of Donations"
             android:textSize="18sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

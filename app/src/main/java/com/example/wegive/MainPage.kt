@@ -112,7 +112,7 @@ class MainPage : AppCompatActivity() {
             }
             if (snapshot != null){
                 tv_helloPerson.setText("Hello " + snapshot.get("firstName").toString())
-                tv_totalDonations.setText(snapshot.get("totalAmountGiven").toString())
+                tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
             }
         }
