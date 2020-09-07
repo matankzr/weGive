@@ -1,6 +1,7 @@
 package com.example.wegive
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -69,6 +70,20 @@ class MainPage : AppCompatActivity() {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@MainPage, WalletPage::class.java)
                 startActivity(intent);
+            }
+        })
+
+        btn_scan.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View): Unit {
+                try {
+                    val intent = Intent("com.google.zxing.client.android.SCAN")
+                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE") // "PRODUCT_MODE for bar codes
+                    startActivityForResult(intent, 0)
+                } catch (e: Exception) {
+                    val marketUri: Uri = Uri.parse("market://details?id=com.google.zxing.client.android")
+                    val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
+                    startActivity(marketIntent)
+                }
             }
         })
     }

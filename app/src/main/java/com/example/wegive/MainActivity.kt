@@ -13,4 +13,15 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                val contents = data?.getStringExtra("SCAN_RESULT")
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //handle cancel
+            }
+        }
+    }
 }
