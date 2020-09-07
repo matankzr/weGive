@@ -1,17 +1,22 @@
 package com.example.wegive
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wegive.models.*
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_wallet_page.*
+import kotlinx.android.synthetic.main.item_charity.*
+
 
 private const val TAG = "WalletPage"
 
@@ -61,6 +66,9 @@ class WalletPage : AppCompatActivity() {
 
         userRef = mFirebaseDatabaseInstance.collection("users").document(userId)
 
+        var favoriteOrganizationsList: MutableList<String> = getFavoriteOrganizations()
+        Log.d(TAG, "onCreate, favoriteOrganizationsList=${favoriteOrganizationsList}")
+
 
         listenToUser()
         listenToDonations()
@@ -94,11 +102,141 @@ class WalletPage : AppCompatActivity() {
         })
     }
 
+    private fun getFavoriteOrganizations(): MutableList<String> {
+//        Log.i(TAG, "called addReceiverToFavorites with parameters charity: ${charity.charityName} and isFav: ${isFav}")
+
+
+        var oldFavoriteList = mutableListOf<String>()
+
+        var favOrgRefs = userRef.collection("favorites").document("favoriteOrganizations")
+
+
+        val applicationIdRef =
+            userRef.collection("favorites").document("favoriteOrganizations")
+
+        applicationIdRef.get()
+            .addOnCompleteListener { task: Task<DocumentSnapshot?> ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document!!.exists()) {
+                        oldFavoriteList =
+                            document!!["organizationsArray"] as MutableList<String>
+
+                        Log.d(TAG, "Inside getFavoriteOrganizations, oldFavoriteList returned: ${oldFavoriteList}")
+                    }
+                }
+            }
+        return oldFavoriteList
+    }
+
+    private fun partItemClicked(charity : Charity) {
+//        Toast.makeText(this, "Clicked: ${charity.charityName}", Toast.LENGTH_SHORT).show()
+
+        if (charity.charityType.equals("organization")){
+            Toast.makeText(this, "Organization: ${charity.charityName}", Toast.LENGTH_SHORT).show()
+        } else{
+            Toast.makeText(this, "Person: ${charity.charityName}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun favButtonClickHandler(charity : Charity) {
+        var isFavorite: Boolean = btn_favorite_itemCharity.isChecked
+
+        if (isFavorite){
+            Toast.makeText(this, "Organization: ${charity.charityName} IS favorite!", Toast.LENGTH_SHORT).show()
+
+        } else{
+            Toast.makeText(this, "Organization: ${charity.charityName} IS NOT favorite ):", Toast.LENGTH_SHORT).show()
+        }
+        addReceiverToFavorites(charity, isFavorite)
+    }
+
+    private fun addReceiverToFavorites(charity: Charity, isFav: Boolean) {
+        Log.i(TAG, "called addReceiverToFavorites with parameters charity: ${charity.charityName} and isFav: ${isFav}")
+        val id: String = charity.charityName
+
+        var oldFavoriteList : MutableList<String>
+        var newFavoriteList : MutableList<String>
+
+        var favOrgRefs = userRef.collection("favorites").document("favoriteOrganizations")
+
+
+        val applicationIdRef =
+            userRef.collection("favorites").document("favoriteOrganizations")
+        applicationIdRef.get()
+            .addOnCompleteListener { task: Task<DocumentSnapshot?> ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document!!.exists()) {
+                        oldFavoriteList =
+                            document!!["organizationsArray"] as MutableList<String>
+
+                        var isCharityAlreadyFavorite = oldFavoriteList.contains(id)
+                        if (isFav){
+                            if (isCharityAlreadyFavorite){
+                                Log.d(TAG,"ALREADY IN FAVORITES! isCharityAlreadyFavorite=TRUE and isFav=true")
+                            } else{
+                                Log.d(TAG, "aaaaaa")
+                                newFavoriteList = oldFavoriteList
+                                newFavoriteList.add(id)
+                                userRef.collection("favorites").document("favoriteOrganizations").update("organizationsArray", newFavoriteList)
+                            }
+                        } else{
+                            if (isCharityAlreadyFavorite){
+                                Log.d(TAG, "bbbbbb")
+                                newFavoriteList = oldFavoriteList
+                                newFavoriteList.remove(id)
+                                userRef.collection("favorites").document("favoriteOrganizations").update("organizationsArray", newFavoriteList)
+                            } else{
+                                Log.d(TAG, "cccccc")
+                            }
+                        }
+
+                        Log.d(TAG, "favs returned: ${oldFavoriteList}")
+                    }
+                }
+            }
+
+    }
+
+    private fun listenToOrganizations() {
+        charityOrganizationsRef.addSnapshotListener { snapshot, exception ->
+            Log.i(TAG,"inside charitiesRef.addSnapshotListener")
+
+            organizationAdapter = CharityAdapter(this,
+                charityOrganizations,
+                { charity : Charity -> partItemClicked(charity) },
+                { charity : Charity -> favButtonClickHandler(charity) })
+
+            recyclerView_WalletPage.adapter = organizationAdapter
+            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
+
+            if (exception!= null || snapshot == null){
+                Log.e(TAG, "Exception when querying donations", exception)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+                val organizationsList = snapshot.toObjects(Charity::class.java)
+                charityOrganizations.clear()
+                charityOrganizations.addAll(organizationsList)
+                organizationAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+
+    private fun storeClicked(store: Store) {
+        Toast.makeText(this, "Clicked: ${store.storeName} 2!!!", Toast.LENGTH_SHORT).show()
+    }
+
+
+
     private fun listenToStores() {
         storesRef.addSnapshotListener { snapshot, exception ->
             Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 
-            storesAdapter = StoreAdapter(this, stores)
+            storesAdapter = StoreAdapter(this, stores,{ store : Store -> storeClicked(store) })
             recyclerView_WalletPage.adapter = storesAdapter
             recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
 
@@ -116,27 +254,8 @@ class WalletPage : AppCompatActivity() {
         }
     }
 
-    private fun listenToOrganizations() {
-        charityOrganizationsRef.addSnapshotListener { snapshot, exception ->
-            Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 
-            organizationAdapter = CharityAdapter(this, charityOrganizations)
-            recyclerView_WalletPage.adapter = organizationAdapter
-            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
 
-            if (exception!= null || snapshot == null){
-                Log.e(TAG, "Exception when querying donations", exception)
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null) {
-                val organizationsList = snapshot.toObjects(Charity::class.java)
-                charityOrganizations.clear()
-                charityOrganizations.addAll(organizationsList)
-                organizationAdapter.notifyDataSetChanged()
-            }
-        }
-    }
 
     private fun listenToDonations() {
         Log.i(TAG, "called listenToDonations")

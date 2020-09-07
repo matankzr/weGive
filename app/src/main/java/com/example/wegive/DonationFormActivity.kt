@@ -23,6 +23,11 @@ class DonationFormActivity : AppCompatActivity() {
     private lateinit var mFirebaseDatabaseInstance: FirebaseFirestore
     private lateinit var userRef: DocumentReference
     private lateinit var userId: String
+    private lateinit var userName: String
+
+
+    private lateinit var donationManagerRef: DocumentReference
+
 
     lateinit var etReceiverID: EditText
     lateinit var etReceiverAmount: EditText
@@ -30,6 +35,9 @@ class DonationFormActivity : AppCompatActivity() {
     lateinit var sendButton: Button
     lateinit var favorite: CheckBox
     var numIds: Int = 0
+    var totalNumDonationsInSystem: Int = 0
+    var totalNumOrgDonationsInSystem: Int = 0
+    var totalNumPersonDonationsInSystem: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +59,27 @@ class DonationFormActivity : AppCompatActivity() {
         if (user != null) {
             userId = user.uid
         }
+
+
        userRef = mFirebaseDatabaseInstance.collection("users").document(userId)
+
+        userRef.get().addOnSuccessListener {
+            userName = it.get("userName").toString()
+        }
+
+        donationManagerRef = mFirebaseDatabaseInstance.collection("donations").document("donationManager")
+        donationManagerRef.get().addOnSuccessListener { document->
+            if (document!= null){
+                totalNumDonationsInSystem = document.getLong("totalNumberOfDonations")?.toInt() ?:0
+                totalNumOrgDonationsInSystem = document.getLong("totalNumberOfDonationsToOrganizations")?.toInt() ?:0
+                totalNumPersonDonationsInSystem = document.getLong("totalNumberOfDonationsToPeople")?.toInt() ?:0
+            } else{
+                Log.d(TAG, "no such document bitch")
+            }
+        }
+            .addOnFailureListener {
+                Log.d(TAG, "Bitch get failed with ", it)
+            }
 
         userRef.get().addOnSuccessListener { document->
             if (document != null){
@@ -79,10 +107,14 @@ class DonationFormActivity : AppCompatActivity() {
     private fun sendDonation() {
         Log.i(TAG, "sendDonation called!")
 
+        val orderRefID: String = "p"+totalNumPersonDonationsInSystem.toString()
+
         val recvId: String = etReceiverID.text.toString()
         val recvAmount: Float = etReceiverAmount.text.toString().toFloat()
         var memo: String = etMemo.text.toString()
         val favorite: Boolean = favorite.isChecked
+
+
 
         if (etMemo.text.toString().isEmpty()) {
             memo = ""
@@ -99,15 +131,15 @@ class DonationFormActivity : AppCompatActivity() {
             "favorite" to favorite
         )
 
-        if (favorite)
-            addReceiverToFavorites(recvId)
+//        if (favorite)
+//            addReceiverToFavorites(recvId)
 
 //        userRef.collection("donations").add(donation)
-        userRef.collection("donations").document(numIds.toString()).set(donation)
-
-
-
+        userRef.collection("donations").document(orderRefID).set(donation)
         updateUserDocument(userRef, recvAmount);
+
+        updateDonationManager(userName, recvId, recvAmount, FieldValue.serverTimestamp(), orderRefID)
+
 
 
 
@@ -118,13 +150,48 @@ class DonationFormActivity : AppCompatActivity() {
         //https://code.luasoftware.com/tutorials/google-cloud-firestore/firestore-partial-update/
     }
 
+    private fun updateDonationManager(
+        userName: String,
+        recvId: String,
+        recvAmount: Float,
+        serverTimestamp: FieldValue,
+        orderRefID: String
+    ) {
+
+        val donation = hashMapOf(
+            "from" to userName,
+            "to" to recvId,
+            "donation_amount" to recvAmount,
+            "date_donation" to serverTimestamp
+        )
+
+        donationManagerRef.collection("donationsToPeople").document(orderRefID).set(donation)
+
+        val docRef: DocumentReference = donationManagerRef
+
+        docRef?.update("totalNumberOfDonations", FieldValue.increment(1))
+        docRef?.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
+
+        docRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "Document data: ${document.data}")
+                    val oldAmountGiven = document.get("totalGivenToPeople").toString().toInt()
+                    val amountToAdd = recvAmount.roundToInt()
+                    docRef.update("totalGivenToPeople",oldAmountGiven+amountToAdd)
+                } else {
+                    Log.d(TAG, "No such document!")
+                }
+            }
+            ?.addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
+    }
+
     private fun addReceiverToFavorites(recvId: String) {
         Log.i(TAG, "called addReceiverToFavorites")
 
         val fav = hashMapOf(
             "cause" to recvId
         )
-
 
         val dbInsance = userRef.collection("favorites").document(recvId)
 
@@ -142,7 +209,6 @@ class DonationFormActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d(TAG, "checkIfRecvIdInFavorites encounted failure")
             }
-
     }
 
     private fun updateUserDocument(docRef: DocumentReference?, recvAmount: Float) {
