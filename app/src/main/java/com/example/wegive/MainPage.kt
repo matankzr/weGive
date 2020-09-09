@@ -1,4 +1,5 @@
 package com.example.wegive
+import java.util.*
 
 import android.content.Intent
 import android.net.Uri
@@ -11,8 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main_page.*
-
-
 
 
 private const val TAG="MainPage"

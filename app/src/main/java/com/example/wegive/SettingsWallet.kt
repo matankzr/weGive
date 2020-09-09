@@ -1,15 +1,18 @@
 package com.example.wegive
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.firebase.firestore.FirebaseFirestore
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wegive.R
+import kotlinx.android.synthetic.main.wallet_settings.*
 
 class SettingsWallet : AppCompatActivity() {
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.wallet_settings)
+
+        tv_Credit.visibility = View.INVISIBLE;
+        tv_CreditNumberLastFour.visibility = View.INVISIBLE;
+        tv_deletecard.visibility = View.INVISIBLE;
     }
 }
