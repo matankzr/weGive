@@ -55,7 +55,7 @@ class MainPage : AppCompatActivity() {
 
         btn_settings.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View): Unit {
-                val intent = Intent(this@MainPage, SettingsPage::class.java)
+                val intent = Intent(this@MainPage, StorePayment::class.java)
                 startActivity(intent);
             }
         })
@@ -72,20 +72,12 @@ class MainPage : AppCompatActivity() {
             }
         })
 
-        btn_scan.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View): Unit {
-                try {
-                    val intent = Intent("com.google.zxing.client.android.SCAN")
-                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE") // "PRODUCT_MODE for bar codes
-                    startActivityForResult(intent, 0)
-                } catch (e: Exception) {
-                    val marketUri: Uri = Uri.parse("market://details?id=com.google.zxing.client.android")
-                    val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
-                    startActivity(marketIntent)
-                }
-            }
-        })
+        btn_scan.setOnClickListener {
+            val intent = Intent(this , ScanActivity::class.java)
+            startActivity(intent);
+        }
     }
+
 
     private fun listenToDonations(userRef: DocumentReference) {
         val donationsReference = userRef.collection("donations")
