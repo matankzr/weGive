@@ -1,6 +1,8 @@
 package com.example.wegive
+import java.util.*
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,8 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main_page.*
-
-
 
 
 private const val TAG="MainPage"
@@ -69,6 +69,20 @@ class MainPage : AppCompatActivity() {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@MainPage, WalletPage::class.java)
                 startActivity(intent);
+            }
+        })
+
+        btn_scan.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View): Unit {
+                try {
+                    val intent = Intent("com.google.zxing.client.android.SCAN")
+                    intent.putExtra("SCAN_MODE", "QR_CODE_MODE") // "PRODUCT_MODE for bar codes
+                    startActivityForResult(intent, 0)
+                } catch (e: Exception) {
+                    val marketUri: Uri = Uri.parse("market://details?id=com.google.zxing.client.android")
+                    val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
+                    startActivity(marketIntent)
+                }
             }
         })
     }

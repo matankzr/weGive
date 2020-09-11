@@ -15,7 +15,9 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_wallet_page.*
+import kotlinx.android.synthetic.main.activity_wallet_page.btn_back
 import kotlinx.android.synthetic.main.item_charity.*
+import kotlinx.android.synthetic.main.wallet_settings.*
 
 
 private const val TAG = "WalletPage"
@@ -257,11 +259,14 @@ class WalletPage : AppCompatActivity() {
 
     private fun storeClicked(store: Store) {
         Toast.makeText(this, "Clicked: ${store.storeName} 2!!!", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this@WalletPage, StorePayment::class.java)
+        startActivity(intent)
     }
 
 
 
     private fun listenToStores() {
+
         storesRef.addSnapshotListener { snapshot, exception ->
             Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 
@@ -275,7 +280,8 @@ class WalletPage : AppCompatActivity() {
             }
 
             if (snapshot != null) {
-                val storeList = snapshot.toObjects(Store::class.java)
+
+                var storeList = snapshot.toObjects(Store::class.java)
                 stores.clear()
                 stores.addAll(storeList)
                 storesAdapter.notifyDataSetChanged()
@@ -311,6 +317,7 @@ class WalletPage : AppCompatActivity() {
 
             if (snapshot != null) {
                 val donationsList = snapshot.toObjects(Donation::class.java)
+
                 donations.clear()
                 donations.addAll(donationsList)
                 adapter.notifyDataSetChanged()
