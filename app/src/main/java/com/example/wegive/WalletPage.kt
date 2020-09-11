@@ -28,9 +28,11 @@ class WalletPage : AppCompatActivity() {
     private lateinit var charityOrganizationsRef: CollectionReference
     private lateinit var storesRef: CollectionReference
 
-    private lateinit var donations: MutableList<Donation>
+    private lateinit var donations: MutableList<Donation> =
     private lateinit var charityOrganizations: MutableList<Charity>
     private lateinit var stores: MutableList<Store>
+    private lateinit var favoriteStores: MutableList<Store>
+    private lateinit var staticStoresList: MutableList<Store>
 
     private lateinit var adapter: DonationAdapter
     private lateinit var organizationAdapter: CharityAdapter
@@ -45,7 +47,6 @@ class WalletPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallet_page)
-
         Log.i(TAG, "Entered onCreate")
 
         donations = mutableListOf()
@@ -67,6 +68,7 @@ class WalletPage : AppCompatActivity() {
         userRef = mFirebaseDatabaseInstance.collection("users").document(userId)
 
         var favoriteOrganizationsList: MutableList<String> = getFavoriteOrganizations()
+        staticStoresList = getListOfStores()
         Log.d(TAG, "onCreate, favoriteOrganizationsList=${favoriteOrganizationsList}")
 
 
@@ -100,6 +102,33 @@ class WalletPage : AppCompatActivity() {
                 startActivity(intent);
             }
         })
+    }
+
+    private fun getListOfStores(): MutableList<Store> {
+        var res: MutableList<Store> = mutableListOf()
+        Log.d(TAG, "inside getListOfStores()")
+        storesRef.addSnapshotListener { snapshot, exception ->
+            Log.i(TAG,"inside charitiesRef.addSnapshotListener")
+//            storesAdapter = StoreAdapter(this, stores,{ store : Store -> storeClicked(store) })
+//            recyclerView_WalletPage.adapter = storesAdapter
+//            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
+
+            if (exception!= null || snapshot == null){
+                Log.e(TAG, "Exception when querying donations", exception)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+                val storeList = snapshot.toObjects(Store::class.java)
+                Log.d(TAG, "storeList (snapshot.toObjects) returned: $")
+                res = storeList
+            }
+        }
+
+        for (store in res){
+               Log.d(TAG, "store: ${store}")
+        }
+        return res
     }
 
     private fun getFavoriteOrganizations(): MutableList<String> {

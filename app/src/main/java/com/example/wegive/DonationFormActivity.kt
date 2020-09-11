@@ -142,7 +142,6 @@ class DonationFormActivity : AppCompatActivity() {
 
 
 
-
         val intent = Intent(this@DonationFormActivity, MainPage::class.java)
         startActivity(intent);
         finish()
