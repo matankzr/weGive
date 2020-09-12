@@ -44,6 +44,7 @@ class ScanActivity: AppCompatActivity() {
                 Log.d(TAG,contents as String)
                 val intent = Intent(this, DonationView::class.java)
                 intent.putExtra("receiverID",contents)
+                intent.putExtra("type","p")
                 startActivity(intent)
             }
         }

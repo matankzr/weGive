@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wegive.R
+import com.example.wegive.utils.FirebaseUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
@@ -18,38 +19,33 @@ private const val TAG = "DonationView"
 
 class DonationView: AppCompatActivity() {
 
+
+    private val firebaseObj: FirebaseUtil = FirebaseUtil()
+
+    //fields passed in from caller activity
     private lateinit var receiverId: String
+    private lateinit var type: String
 
-
+    ////Fields to get from fireStore
+    private lateinit var userName: String
     var numIds: Int = 0
     var totalNumDonationsInSystem: Int = 0
     var totalNumOrgDonationsInSystem: Int = 0
     var totalNumPersonDonationsInSystem: Int = 0
-    private lateinit var mFirebaseDatabaseInstance: FirebaseFirestore
-    private lateinit var userRef: DocumentReference
-    private lateinit var userId: String
-    private lateinit var userName: String
-    private lateinit var donationManagerRef: DocumentReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_donation)
         receiverId = intent.getStringExtra("receiverID")
+        type = intent.getStringExtra("type")
 
         tv_receiver_donationView.setText(receiverId)
-        mFirebaseDatabaseInstance = FirebaseFirestore.getInstance()
 
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            userId = user.uid
-        }
-        userRef = mFirebaseDatabaseInstance.collection("users").document(userId)
-        userRef.get().addOnSuccessListener {
-            userName = it.get("userName").toString()
-        }
-        userRef.get().addOnSuccessListener { document->
+        firebaseObj.getUserRef().get().addOnSuccessListener { document->
             if (document != null){
+                userName = document.get("userName").toString()
+                tv_username.setText(userName)
                 numIds = document.getLong("totalNumberOfDonations")?.toInt() ?: 0
                 Log.d(TAG, "numIds is now: ${numIds}")
             } else{
@@ -60,9 +56,7 @@ class DonationView: AppCompatActivity() {
                 Log.d(TAG, "get failed with ", exception)
             }
 
-
-        donationManagerRef = mFirebaseDatabaseInstance.collection("donations").document("donationManager")
-        donationManagerRef.get().addOnSuccessListener { document->
+        firebaseObj.getDonationsRef().get().addOnSuccessListener { document->
             if (document!= null){
                 totalNumDonationsInSystem = document.getLong("totalNumberOfDonations")?.toInt() ?:0
                 totalNumOrgDonationsInSystem = document.getLong("totalNumberOfDonationsToOrganizations")?.toInt() ?:0
@@ -77,12 +71,21 @@ class DonationView: AppCompatActivity() {
 
 
         btn_donate.setOnClickListener { sendDonation() }
-        btn_cancel.setOnClickListener { endActivity() }
+        btn_cancel.setOnClickListener {
+            Toast.makeText(this, "Donate cancelled...Ya bastard", Toast.LENGTH_LONG).show()
+            endActivity() }
     }
 
     private fun sendDonation() {
 
-        val orderRefID: String = "p"+totalNumPersonDonationsInSystem.toString()
+        val orderRefID: String
+        if (type == "p")
+            orderRefID = type+totalNumPersonDonationsInSystem.toString()
+        else if (type == "o")
+            orderRefID = type+totalNumOrgDonationsInSystem.toString()
+        else{
+            orderRefID = "u"+totalNumOrgDonationsInSystem.toString()
+        }
 
         val recvAmount: Float = editTextNumber.text.toString().toFloat()
         var memo: String = et_memo_donationView.text.toString()
@@ -96,10 +99,10 @@ class DonationView: AppCompatActivity() {
             "favorite" to favorite
         )
 
-        userRef.collection("donations").document(orderRefID).set(donation)
-        updateUserDocument(userRef, recvAmount);
+        firebaseObj.getUserRef().collection("donations").document(orderRefID).set(donation)
+        updateUserDocument(firebaseObj.getUserRef(), recvAmount);
         updateDonationManager(userName, receiverId, recvAmount, FieldValue.serverTimestamp(), orderRefID)
-        Toast.makeText(this, "Donate Button clicked for User ${userId}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Donate Sent to ${receiverId}", Toast.LENGTH_LONG).show()
         endActivity()
     }
 
@@ -143,12 +146,20 @@ class DonationView: AppCompatActivity() {
             "date_donation" to serverTimestamp
         )
 
-        donationManagerRef.collection("donationsToPeople").document(orderRefID).set(donation)
 
-        val docRef: DocumentReference = donationManagerRef
+        val docRef: DocumentReference = firebaseObj.getDonationsRef()
 
         docRef?.update("totalNumberOfDonations", FieldValue.increment(1))
-        docRef?.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
+        if (type == "p"){
+            firebaseObj.getDonationsRef().collection("donationsToPeople").document(orderRefID).set(donation)
+            docRef?.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
+        }
+
+        else if (type == "o"){
+            firebaseObj.getDonationsRef().collection("donationsToOrganizations").document(orderRefID).set(donation)
+            docRef?.update("totalNumberOfDonationsToOrganizations", FieldValue.increment(1))
+        }
+
 
         docRef?.get()
             ?.addOnSuccessListener { document ->
@@ -165,3 +176,6 @@ class DonationView: AppCompatActivity() {
     }
 
 }
+
+
+

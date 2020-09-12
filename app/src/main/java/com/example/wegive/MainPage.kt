@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wegive.utils.FirebaseUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,10 +27,10 @@ class MainPage : AppCompatActivity() {
 
     /////////////////////
 
-    private lateinit var mFirebaseDatabaseInstance: FirebaseFirestore
-    private var userId:String?=null
+    private val firebaseObj: FirebaseUtil = FirebaseUtil()
+
     //create data source for donations
-    private lateinit var donations: MutableList<Donation>
+    private var donations: MutableList<Donation> = mutableListOf()
     private lateinit var adapter: DonationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,20 +38,9 @@ class MainPage : AppCompatActivity() {
         setContentView(R.layout.activity_main_page)
         Log.i(TAG, "Inside MainPage onCreate")
 
-        donations = mutableListOf()
-        mFirebaseDatabaseInstance= FirebaseFirestore.getInstance()
 
-        val user= FirebaseAuth.getInstance().currentUser
-
-        if (user != null) {
-            userId=user.uid
-            Log.i(TAG, "Current user uid: ${userId}")
-        }
-
-        val userRef = mFirebaseDatabaseInstance.collection("users").document(userId!!)
-
-        listenToUser(userRef)
-        listenToDonations(userRef)
+        listenToUser()
+        listenToDonations()
 
 
         btn_settings.setOnClickListener(object: View.OnClickListener {
@@ -79,16 +69,12 @@ class MainPage : AppCompatActivity() {
     }
 
 
-    private fun listenToDonations(userRef: DocumentReference) {
-        val donationsReference = userRef.collection("donations")
-
+    private fun listenToDonations() {
         adapter = DonationAdapter(this, donations)
         recyclerView_MainPage.adapter = adapter
         recyclerView_MainPage.layoutManager = LinearLayoutManager(this)
 
-        Log.i(TAG, "Found donationsReference: ${donationsReference}")
-
-        donationsReference.addSnapshotListener { snapshot, exception ->
+        firebaseObj.getUserDonationsRef().addSnapshotListener { snapshot, exception ->
             Log.i(TAG, "Inside donationsReference.addSnapshotListener")
 
             if (exception!= null || snapshot == null){
@@ -109,8 +95,8 @@ class MainPage : AppCompatActivity() {
         }
     }
 
-    private fun listenToUser(userRef: DocumentReference) {
-        userRef.addSnapshotListener { snapshot, e ->
+    private fun listenToUser() {
+        firebaseObj.getUserRef().addSnapshotListener { snapshot, e ->
             //if there's an exception, skip
             if (e != null){
                 Log.w(TAG, "Listen failed for user", e)

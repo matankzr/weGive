@@ -29,7 +29,7 @@ class StoreAdapter(val context: Context, val stores: List<Store>,val clickListen
         fun bind(store: Store, clickListener: (Store)->Unit) {
             itemView.tv_name_itemStore.text = store.storeName
             Glide.with(context).load(store.imageURL).into(itemView.iv_image_itemStore)
-            itemView.checkBox_favorite_itemStore.isChecked = store.favorite
+            itemView.btn_favorite_itemStore.isChecked = store.favorite
 
             itemView.iv_image_itemStore.setOnClickListener { clickListener(store) }
 
