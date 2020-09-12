@@ -16,7 +16,13 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainPage" />
         <activity android:name=".WalletPage" />
-        <activity android:name=".SplashView" />
+        <activity android:name=".SplashView" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingsWallet" />
         <activity android:name=".StorePayment" />
         <activity android:name=".DonationView" />
@@ -28,11 +34,7 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".ScanActivity">
 
-    <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

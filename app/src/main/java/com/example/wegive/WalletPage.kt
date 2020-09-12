@@ -30,8 +30,8 @@ class WalletPage : AppCompatActivity() {
     private lateinit var charityOrganizationsRef: CollectionReference
     private lateinit var storesRef: CollectionReference
 
-    private lateinit var donations: MutableList<Donation> =
-    private lateinit var charityOrganizations: MutableList<Charity>
+    private lateinit var donations: MutableList<Donation>
+    private var charityOrganizations: MutableList<Charity> = mutableListOf()
     private lateinit var stores: MutableList<Store>
     private lateinit var favoriteStores: MutableList<Store>
     private lateinit var staticStoresList: MutableList<Store>
