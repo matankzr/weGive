@@ -19,7 +19,6 @@ private const val TAG = "qrActivity"
 class ScanActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_page)
         openScanApp()
     }
 
@@ -43,7 +42,8 @@ class ScanActivity: AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val contents = data?.getStringExtra("SCAN_RESULT")
                 Log.d(TAG,contents as String)
-
+                val intent = Intent(this, SplashView::class.java)
+                startActivity(intent)
             }
         }
     }
