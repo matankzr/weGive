@@ -42,7 +42,8 @@ class ScanActivity: AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val contents = data?.getStringExtra("SCAN_RESULT")
                 Log.d(TAG,contents as String)
-                val intent = Intent(this, SplashView::class.java)
+                val intent = Intent(this, DonationView::class.java)
+                intent.putExtra("receiverID",contents)
                 startActivity(intent)
             }
         }
