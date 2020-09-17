@@ -6,26 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".WalletPage">
 
-    <ImageView
-        android:id="@+id/imageView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14"
-        app:srcCompat="@drawable/line" />
-
     <ImageButton
-        android:id="@+id/btn_cat_three"
+        android:id="@+id/btn_cat_two2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
         android:background="@null"
-        app:layout_constraintEnd_toStartOf="@+id/btn_fav"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_cat_two"
+        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
         app:srcCompat="@drawable/walletoff" />
 
     <ImageView
@@ -33,15 +22,15 @@
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_marginTop="18dp"
-        android:tint="#5C636E"
-        app:layout_constraintEnd_toStartOf="@+id/tv_totalDonated_walletPage"
+        app:layout_constraintEnd_toStartOf="@+id/ttl_wgc3"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_td2"
-        app:srcCompat="@drawable/shekelsign" />
+        app:srcCompat="@drawable/shekelsign"
+        app:tint="#5C636E" />
 
     <TextView
-        android:id="@+id/tv_totalDonated_walletPage"
+        android:id="@+id/ttl_wgc3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -108,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <TextView
-        android:id="@+id/tv_availableCoins_walletPage"
+        android:id="@+id/ttl_wgc2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -134,12 +123,12 @@
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_marginTop="18dp"
-        android:tint="#5C636E"
-        app:layout_constraintEnd_toStartOf="@+id/tv_availableCoins_walletPage"
+        app:layout_constraintEnd_toStartOf="@+id/ttl_wgc2"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/tv_wgc2"
-        app:srcCompat="@drawable/shekelsign" />
+        app:srcCompat="@drawable/shekelsign"
+        app:tint="#5C636E" />
 
     <EditText
         android:id="@+id/searchtxt"
@@ -181,9 +170,8 @@
         android:background="@null"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toStartOf="@+id/btn_cat_two"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
+        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
         app:srcCompat="@drawable/walleton" />
 
     <ImageButton
@@ -191,33 +179,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
         android:background="@null"
-        app:layout_constraintEnd_toStartOf="@+id/btn_cat_three"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
+        app:layout_constraintEnd_toEndOf="@+id/imageView9"
+        app:layout_constraintStart_toStartOf="@+id/imageView9"
+        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
         app:srcCompat="@drawable/walletoff" />
 
-    <ImageButton
-        android:id="@+id/btn_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="15dp"
-        android:background="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
-        app:srcCompat="@drawable/walletfavoff" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_WalletPage"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="409dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView26"
-        tools:listitem="@layout/listviewrow_donations" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_cat_two" />
 
     <TextView
         android:id="@+id/textView12"
@@ -242,17 +218,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="People"
-        app:layout_constraintEnd_toEndOf="@+id/btn_cat_three"
-        app:layout_constraintStart_toStartOf="@+id/btn_cat_three"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cat_three" />
+        app:layout_constraintEnd_toEndOf="@+id/btn_cat_two2"
+        app:layout_constraintStart_toStartOf="@+id/btn_cat_two2"
+        app:layout_constraintTop_toBottomOf="@+id/btn_cat_two2" />
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Favorites"
-        app:layout_constraintEnd_toEndOf="@+id/btn_fav"
-        app:layout_constraintStart_toStartOf="@+id/btn_fav"
-        app:layout_constraintTop_toBottomOf="@+id/btn_fav" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_WalletPage"
+        android:layout_width="409dp"
+        android:layout_height="350dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/listviewrow_donations" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

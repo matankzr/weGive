@@ -24,7 +24,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        //setContentView(R.layout.activity_register)
 
         //Get Firebase Instances
         mAuth = FirebaseAuth.getInstance()
@@ -40,27 +40,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun onRegisterClicked(view: View) {
-        //Validation checking
-        if (TextUtils.isEmpty(et_userName.text.toString())){
-            Toast.makeText(applicationContext,"Enter Username!",Toast.LENGTH_LONG).show()
-        }
-        if(TextUtils.isEmpty(et_firstName.text.toString())){
-            Toast.makeText(applicationContext,"Enter First name!",Toast.LENGTH_LONG).show()
-        }
-        if(TextUtils.isEmpty(et_lastName.text.toString())){
-            Toast.makeText(applicationContext,"Enter Last name!",Toast.LENGTH_LONG).show()
-        }
-        if(TextUtils.isEmpty(et_email_registerActvity.text.toString())){
-            Toast.makeText(applicationContext,"Enter email address!",Toast.LENGTH_LONG).show()
-        }
-        if(TextUtils.isEmpty(et_password_registerActvity.text.toString())){
-            Toast.makeText(applicationContext,"Enter password!",Toast.LENGTH_LONG).show()
-        }
-        if(et_password_registerActvity.text.toString().length<6){
-            Toast.makeText(applicationContext,"Password is too short",Toast.LENGTH_LONG).show()
-        }
-        //Making progressBar visible
-        progressBar!!.visibility=View.VISIBLE
 
         //creating user
         mAuth!!.createUserWithEmailAndPassword(et_email_registerActvity.text.toString(),et_password_registerActvity.text.toString())
