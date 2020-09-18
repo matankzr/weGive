@@ -29,6 +29,7 @@ class DonationView: AppCompatActivity() {
     var totalNumDonationsInSystem: Int = 0
     var totalNumOrgDonationsInSystem: Int = 0
     var totalNumPersonDonationsInSystem: Int = 0
+    var donationAmount: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,14 +67,36 @@ class DonationView: AppCompatActivity() {
             }
 
 
-        btn_donate.setOnClickListener { sendDonation() }
+        btn_donate.setOnClickListener {
+            var myCoins : Long = 0
+            firebaseObj.getUserRef().get().addOnSuccessListener { document->
+                if (document != null){
+                    myCoins = document.get("myCoins") as Long
+                    if(donationAmount <= myCoins) {
+                        sendDonation()
+                        Log.d(TAG, "Donation successful! donation amount is: $donationAmount my coins are: $myCoins")
+                    }
+                    else{
+                        Toast.makeText(this, "Donation failed! \n Donation amount is: $donationAmount, WeGiveCoins: $myCoins", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
         btn_cancel.setOnClickListener {
             Toast.makeText(this, "Donate cancelled...Ya bastard", Toast.LENGTH_LONG).show()
             endActivity() }
-        btn_5nis.setOnClickListener { et_donationAmount.setText(5.toString()) }
-        btn_10nis.setOnClickListener { et_donationAmount.setText(10.toString()) }
-        btn_15nis.setOnClickListener { et_donationAmount.setText(15.toString()) }
-        btn_20nis.setOnClickListener { et_donationAmount.setText(20.toString()) }
+        btn_5nis.setOnClickListener {
+            donationAmount +=5
+            et_donationAmount.setText(donationAmount.toString()) }
+        btn_10nis.setOnClickListener {
+            donationAmount +=10
+            et_donationAmount.setText(donationAmount.toString()) }
+        btn_15nis.setOnClickListener {
+            donationAmount +=15
+            et_donationAmount.setText(donationAmount.toString()) }
+        btn_20nis.setOnClickListener {
+            donationAmount +=20
+            et_donationAmount.setText(donationAmount.toString()) }
     }
 
     private fun sendDonation() {
