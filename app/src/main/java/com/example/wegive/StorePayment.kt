@@ -31,7 +31,7 @@ class StorePayment: AppCompatActivity() {
         Log.i(TAG, "Entered StorePayment onCreate")
         tv_storename.text = intent.getStringExtra("storeName")
         tv_storeaddress.text = intent.getStringExtra("storeAddress")
-        Picasso.get().load(intent.getStringExtra("storeImageURL")).resize(400, 400).into(imageView25)
+        Picasso.get().load(intent.getStringExtra("storeImageURL")).resize(400, 200).into(imageView25)
         btn_pay.setOnClickListener {
             Log.i(TAG, "button pay pressed")
             pay()
