@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_donation.*
+import kotlinx.android.synthetic.main.activity_login_screen.*
 import kotlinx.android.synthetic.main.activity_store_paymaent.*
 import kotlinx.android.synthetic.main.activity_wallet_page.*
 import java.net.URL
@@ -34,6 +35,10 @@ class StorePayment: AppCompatActivity() {
         btn_pay.setOnClickListener {
             Log.i(TAG, "button pay pressed")
             pay()
+        }
+        btn_back2.setOnClickListener {
+            val intent = Intent(this@StorePayment, WalletPage::class.java)
+            startActivity(intent);
         }
         btn_0.setOnClickListener {
             if(paymentString != "") {
