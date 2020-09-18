@@ -48,4 +48,5 @@ class SettingsWallet : AppCompatActivity() {
         tv_CreditNumberLastFour.visibility = View.VISIBLE //should get the last four digits
 
     }
+
 }

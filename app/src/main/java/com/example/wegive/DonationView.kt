@@ -68,19 +68,7 @@ class DonationView: AppCompatActivity() {
 
 
         btn_donate.setOnClickListener {
-            var myCoins : Long = 0
-            firebaseObj.getUserRef().get().addOnSuccessListener { document->
-                if (document != null){
-                    myCoins = document.get("myCoins") as Long
-                    if(donationAmount <= myCoins) {
-                        sendDonation()
-                        Log.d(TAG, "Donation successful! donation amount is: $donationAmount my coins are: $myCoins")
-                    }
-                    else{
-                        Toast.makeText(this, "Donation failed! \n Donation amount is: $donationAmount, WeGiveCoins: $myCoins", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
+            sendDonation()
         }
         btn_cancel.setOnClickListener {
             Toast.makeText(this, "Donate cancelled...Ya bastard", Toast.LENGTH_LONG).show()

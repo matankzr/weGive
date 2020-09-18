@@ -66,5 +66,6 @@ class SettingsPage : AppCompatActivity() {
                 startActivity(intent);
             }
         })
+
     }
 }
