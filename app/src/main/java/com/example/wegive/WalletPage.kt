@@ -2,6 +2,8 @@ package com.example.wegive
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -22,7 +24,6 @@ class WalletPage : AppCompatActivity() {
     private var donations: MutableList<Donation> = mutableListOf()
     private var charityOrganizations: MutableList<Charity> = mutableListOf()
     private var stores: MutableList<Store> = mutableListOf()
-    private var staticStoresList: MutableList<Store> = mutableListOf()
 
 
     private var btnSelected: Int = 1
@@ -38,29 +39,65 @@ class WalletPage : AppCompatActivity() {
         Log.i(TAG, "Entered onCreate")
 
 
+
         listenToUser()
         listenToDonations()
         listenToOrganizations()
         listenToStores()
 
+        searchtxt.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                Log.d(TAG, "Search changed to: " + s.toString())
+                if (s.toString().isNotEmpty()){
+                    if (btnSelected == 1){
+                        Log.d(TAG, "ButtonSelected = 1")
+                        searchStores(s.toString().toLowerCase())
+                    } else if (btnSelected == 2){
+                        Log.d(TAG, "ButtonSelected = 2")
+                        searchOrganizations(s.toString().toLowerCase())
+                    }
+                }
+
+                if (s.toString().isEmpty()){
+                    if (btnSelected == 1){
+                        Log.d(TAG, "ButtonSelected = 1 on Empty Search")
+                        listenToStores()
+                    } else if (btnSelected == 2){
+                        Log.d(TAG, "ButtonSelected = 2 on Empty Search")
+                        listenToOrganizations()
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
+
         btn_organizations.setOnClickListener {
             Log.i(TAG, "button cat two selected")
             btnSelected = 2
-            listenToOrganizations()
+            if (searchtxt.text.toString().isNotEmpty()){
+                searchOrganizations(searchtxt.text.toString().toLowerCase())
+            } else{
+                listenToOrganizations()
+            }
         }
 
         btn_stores.setOnClickListener {
             Log.i(TAG, "button cat one selected")
             btnSelected = 1
-            listenToStores()
-
+            if (searchtxt.text.toString().isNotEmpty()){
+                searchStores(searchtxt.text.toString().toLowerCase())
+            } else{
+                listenToStores()
+            }
         }
 
-//        btn_fav.setOnClickListener {
-//            Log.i(TAG, "button favorites selected")
-//            btnSelected = 3
-//            listenToFavorites()
-//        }
 
         btn_back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View): Unit {
@@ -70,11 +107,17 @@ class WalletPage : AppCompatActivity() {
         })
     }
 
-    private fun getListOfStores(): MutableList<Store> {
-        var res: MutableList<Store> = mutableListOf()
-        Log.d(TAG, "inside getListOfStores()")
-        firebaseObj.getStoresRef().addSnapshotListener { snapshot, exception ->
+    private fun searchOrganizations(keyword: String) {
+        firebaseObj.getOrganizationsRef().whereArrayContains("keywords", keyword).addSnapshotListener { snapshot, exception ->
             Log.i(TAG,"inside charitiesRef.addSnapshotListener")
+
+            organizationAdapter = CharityAdapter(this,
+                charityOrganizations,
+                { charity : Charity -> partItemClicked(charity) },
+                { charity : Charity -> favButtonClickHandler(charity) })
+
+            recyclerView_WalletPage.adapter = organizationAdapter
+            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
 
             if (exception!= null || snapshot == null){
                 Log.e(TAG, "Exception when querying donations", exception)
@@ -82,43 +125,59 @@ class WalletPage : AppCompatActivity() {
             }
 
             if (snapshot != null) {
-                val storeList = snapshot.toObjects(Store::class.java)
-                Log.d(TAG, "storeList (snapshot.toObjects) returned: $")
-                res = storeList
+                val organizationsList = snapshot.toObjects(Charity::class.java)
+                charityOrganizations.clear()
+                charityOrganizations.addAll(organizationsList)
+                organizationAdapter.notifyDataSetChanged()
             }
         }
-
-        for (store in res){
-               Log.d(TAG, "store: ${store}")
-        }
-        return res
     }
+
+    private fun searchStores(keyword: String) {
+        firebaseObj.getStoresRef().whereArrayContains("keywords",keyword).addSnapshotListener { snapshot, exception ->
+            Log.i(TAG,"inside charitiesRef.addSnapshotListener")
+
+            storesAdapter = StoreAdapter(this, stores,{ store : Store -> storeClicked(store) })
+            recyclerView_WalletPage.adapter = storesAdapter
+            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
+
+            if (exception!= null || snapshot == null){
+                Log.e(TAG, "Exception when querying donations", exception)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+
+                var storeList = snapshot.toObjects(Store::class.java)
+                stores.clear()
+                stores.addAll(storeList)
+                storesAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+//    private fun getListOfStores(): MutableList<Store> {
+//        var res: MutableList<Store> = mutableListOf()
+//        Log.d(TAG, "inside getListOfStores()")
+//        firebaseObj.getStoresRef().addSnapshotListener { snapshot, exception ->
+//            Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 //
-//    private fun getFavoriteOrganizations(): MutableList<String> {
-////        Log.i(TAG, "called addReceiverToFavorites with parameters charity: ${charity.charityName} and isFav: ${isFav}")
-//
-//
-//        var oldFavoriteList = mutableListOf<String>()
-//
-//        var favOrgRefs = userRef.collection("favorites").document("favoriteOrganizations")
-//
-//
-//        val applicationIdRef =
-//            userRef.collection("favorites").document("favoriteOrganizations")
-//
-//        applicationIdRef.get()
-//            .addOnCompleteListener { task: Task<DocumentSnapshot?> ->
-//                if (task.isSuccessful) {
-//                    val document = task.result
-//                    if (document!!.exists()) {
-//                        oldFavoriteList =
-//                            document!!["organizationsArray"] as MutableList<String>
-//
-//                        Log.d(TAG, "Inside getFavoriteOrganizations, oldFavoriteList returned: ${oldFavoriteList}")
-//                    }
-//                }
+//            if (exception!= null || snapshot == null){
+//                Log.e(TAG, "Exception when querying donations", exception)
+//                return@addSnapshotListener
 //            }
-//        return oldFavoriteList
+//
+//            if (snapshot != null) {
+//                val storeList = snapshot.toObjects(Store::class.java)
+//                Log.d(TAG, "storeList (snapshot.toObjects) returned: $")
+//                res = storeList
+//            }
+//        }
+//
+//        for (store in res){
+//               Log.d(TAG, "store: ${store}")
+//        }
+//        return res
 //    }
 
     private fun partItemClicked(charity : Charity) {
@@ -129,11 +188,6 @@ class WalletPage : AppCompatActivity() {
         intent.putExtra("type","o")
         startActivity(intent)
 
-//        if (charity.charityType.equals("organization")){
-//            Toast.makeText(this, "Organization: ${charity.charityName}", Toast.LENGTH_SHORT).show()
-//        } else{
-//            Toast.makeText(this, "Person: ${charity.charityName}", Toast.LENGTH_SHORT).show()
-//        }
     }
 
     private fun favButtonClickHandler(charity : Charity) {
@@ -145,55 +199,7 @@ class WalletPage : AppCompatActivity() {
         } else{
             Toast.makeText(this, "Organization: ${charity.charityName} IS NOT favorite ):", Toast.LENGTH_SHORT).show()
         }
-//        addReceiverToFavorites(charity, isFavorite)
     }
-
-//    private fun addReceiverToFavorites(charity: Charity, isFav: Boolean) {
-//        Log.i(TAG, "called addReceiverToFavorites with parameters charity: ${charity.charityName} and isFav: ${isFav}")
-//        val id: String = charity.charityName
-//
-//        var oldFavoriteList : MutableList<String>
-//        var newFavoriteList : MutableList<String>
-//
-//        var favOrgRefs = firebaseObj.getUserRef().collection("favorites").document("favoriteOrganizations")
-//
-//        val applicationIdRef =
-//            firebaseObj.getUserRef().collection("favorites").document("favoriteOrganizations")
-//        applicationIdRef.get()
-//            .addOnCompleteListener { task: Task<DocumentSnapshot?> ->
-//                if (task.isSuccessful) {
-//                    val document = task.result
-//                    if (document!!.exists()) {
-//                        oldFavoriteList =
-//                            document!!["organizationsArray"] as MutableList<String>
-//
-//                        var isCharityAlreadyFavorite = oldFavoriteList.contains(id)
-//                        if (isFav){
-//                            if (isCharityAlreadyFavorite){
-//                                Log.d(TAG,"ALREADY IN FAVORITES! isCharityAlreadyFavorite=TRUE and isFav=true")
-//                            } else{
-//                                Log.d(TAG, "aaaaaa")
-//                                newFavoriteList = oldFavoriteList
-//                                newFavoriteList.add(id)
-//                                userRef.collection("favorites").document("favoriteOrganizations").update("organizationsArray", newFavoriteList)
-//                            }
-//                        } else{
-//                            if (isCharityAlreadyFavorite){
-//                                Log.d(TAG, "bbbbbb")
-//                                newFavoriteList = oldFavoriteList
-//                                newFavoriteList.remove(id)
-//                                userRef.collection("favorites").document("favoriteOrganizations").update("organizationsArray", newFavoriteList)
-//                            } else{
-//                                Log.d(TAG, "cccccc")
-//                            }
-//                        }
-//
-//                        Log.d(TAG, "favs returned: ${oldFavoriteList}")
-//                    }
-//                }
-//            }
-//
-//    }
 
     private fun listenToOrganizations() {
         firebaseObj.getOrganizationsRef().addSnapshotListener { snapshot, exception ->
@@ -232,6 +238,7 @@ class WalletPage : AppCompatActivity() {
 
     private fun listenToStores() {
 
+
         firebaseObj.getStoresRef().addSnapshotListener { snapshot, exception ->
             Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 
@@ -259,6 +266,7 @@ class WalletPage : AppCompatActivity() {
 
     private fun listenToDonations() {
         Log.i(TAG, "called listenToDonations")
+
 
         // Currently, Firestore doesn't allow searching for specific text. Would need to use 3rd party app
         //https://firebase.google.com/docs/firestore/solutions/search

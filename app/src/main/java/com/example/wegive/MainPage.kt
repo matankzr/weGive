@@ -51,10 +51,10 @@ class MainPage : AppCompatActivity() {
             }
         })
 
-        btn_dumbDonate_activityMainPage.setOnClickListener {
-            val intent = Intent(this, DonationFormActivity::class.java)
-            startActivity(intent)
-        }
+//        btn_dumbDonate_activityMainPage.setOnClickListener {
+//            val intent = Intent(this, DonationFormActivity::class.java)
+//            startActivity(intent)
+//        }
 
         btn_wallet.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View): Unit {
