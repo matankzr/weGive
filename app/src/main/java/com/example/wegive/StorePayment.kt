@@ -11,9 +11,11 @@ import com.example.wegive.utils.FirebaseUtil
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_donation.*
 import kotlinx.android.synthetic.main.activity_store_paymaent.*
 import kotlinx.android.synthetic.main.activity_wallet_page.*
+import java.net.URL
 
 private const val TAG="StorePayment"
 
@@ -28,8 +30,7 @@ class StorePayment: AppCompatActivity() {
         Log.i(TAG, "Entered StorePayment onCreate")
         tv_storename.text = intent.getStringExtra("storeName")
         tv_storeaddress.text = intent.getStringExtra("storeAddress")
-
-
+        Picasso.get().load(intent.getStringExtra("storeImageURL")).resize(400, 400).into(imageView25)
         btn_pay.setOnClickListener {
             Log.i(TAG, "button pay pressed")
             pay()

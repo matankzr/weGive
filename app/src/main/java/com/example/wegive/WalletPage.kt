@@ -234,6 +234,7 @@ class WalletPage : AppCompatActivity() {
         val intent = Intent(this@WalletPage, StorePayment::class.java)
         intent.putExtra("storeName",store.storeName)
         intent.putExtra("storeAddress",store.storeWebsite)
+        intent.putExtra("storeImageURL",store.imageURL)
 
         startActivity(intent)
     }
