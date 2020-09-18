@@ -10,10 +10,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 private const val TAG="FirebaseUtil"
 
 class FirebaseUtil {
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val firestoreInstance: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val user= FirebaseAuth.getInstance().currentUser
-    private val userId: String= user!!.uid
+    private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private var firestoreInstance: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var user= FirebaseAuth.getInstance().currentUser
+    private var userId: String= user!!.uid
     private var userRef = firestoreInstance.collection("users").document(userId)
 
     private val userFavoritesRef: CollectionReference = userRef.collection("favorites")
@@ -24,6 +24,9 @@ class FirebaseUtil {
     private val charityOrganizationsRef: CollectionReference = firestoreInstance.collection("charityOrganization")
     private val storesRef: CollectionReference = firestoreInstance.collection("stores")
 
+    fun getAuth(): FirebaseAuth {
+        return firebaseAuth
+    }
     fun getFirestoreInstance(): FirebaseFirestore{
         return firestoreInstance
     }

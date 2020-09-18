@@ -37,6 +37,7 @@ class MainPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
         Log.i(TAG, "Inside MainPage onCreate")
+        Log.d(TAG,"firebaseObj.getUserId: ${firebaseObj.getUserID()}")
 
 
         listenToUser()
@@ -45,7 +46,7 @@ class MainPage : AppCompatActivity() {
 
         btn_settings.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View): Unit {
-                val intent = Intent(this@MainPage, StorePayment::class.java)
+                val intent = Intent(this@MainPage, SettingsPage::class.java)
                 startActivity(intent);
             }
         })

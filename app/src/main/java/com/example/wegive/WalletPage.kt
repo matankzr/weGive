@@ -9,16 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wegive.models.*
 import com.example.wegive.utils.FirebaseUtil
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_wallet_page.*
 import kotlinx.android.synthetic.main.activity_wallet_page.btn_back
 import kotlinx.android.synthetic.main.item_charity.*
-import kotlinx.android.synthetic.main.wallet_settings.*
 
 
 private const val TAG = "WalletPage"
@@ -33,12 +26,10 @@ class WalletPage : AppCompatActivity() {
 
 
     private var btnSelected: Int = 1
-    private lateinit var favorites: MutableList<Favorite>
 
     private lateinit var adapter: DonationAdapter
     private lateinit var organizationAdapter: CharityAdapter
     private lateinit var storesAdapter: StoreAdapter
-    private lateinit var favAdapter: FavoritesAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,24 +43,24 @@ class WalletPage : AppCompatActivity() {
         listenToOrganizations()
         listenToStores()
 
-        btn_cat_two.setOnClickListener {
+        btn_organizations.setOnClickListener {
             Log.i(TAG, "button cat two selected")
             btnSelected = 2
             listenToOrganizations()
         }
 
-        btn_cat_one.setOnClickListener {
+        btn_stores.setOnClickListener {
             Log.i(TAG, "button cat one selected")
             btnSelected = 1
             listenToStores()
 
         }
 
-        btn_fav.setOnClickListener {
-            Log.i(TAG, "button favorites selected")
-            btnSelected = 3
-            listenToFavorites()
-        }
+//        btn_fav.setOnClickListener {
+//            Log.i(TAG, "button favorites selected")
+//            btnSelected = 3
+//            listenToFavorites()
+//        }
 
         btn_back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View): Unit {
@@ -295,6 +286,8 @@ class WalletPage : AppCompatActivity() {
             }
         }
     }
+
+
 //
 //    private fun listenToTab2() {
 //        Log.i(TAG, "called listenToTab2")

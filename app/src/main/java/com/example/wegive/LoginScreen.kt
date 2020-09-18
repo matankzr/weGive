@@ -13,43 +13,47 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import com.example.WeGive.ForgotPassword
-import com.example.WeGive.RegisterPage
+import com.example.wegive.ForgotPassword
+import com.example.wegive.RegisterPage
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.loginBtn
-import kotlinx.android.synthetic.main.activity_login.loginEmail
-import kotlinx.android.synthetic.main.activity_login.loginFacebook
-import kotlinx.android.synthetic.main.activity_login.loginPassword
-import kotlinx.android.synthetic.main.activity_login.registerBtn
+//import kotlinx.android.synthetic.main.activity_login.*
+//import kotlinx.android.synthetic.main.activity_login.loginBtn
+//import kotlinx.android.synthetic.main.activity_login.loginEmail
+//import kotlinx.android.synthetic.main.activity_login.loginFacebook
+//import kotlinx.android.synthetic.main.activity_login.loginPassword
+//import kotlinx.android.synthetic.main.activity_login.registerBtn
 import kotlinx.android.synthetic.main.activity_login_screen.*
 
 private const val TAG = "LoginScreen"
 class LoginScreen : AppCompatActivity() {
 
-    private var inputEmail: EditText? = null
-    private var inputPassword: EditText? = null
-    private var btnSignIn: Button? = null
-    private var btnSignUp: Button? = null
-    private var btnResetPassword: Button? = null
-    private var showPass: ImageView? = null
+//    private var inputEmail: EditText? = null
+//    private var inputPassword: EditText? = null
+//    private var btnSignIn: Button? = null
+//    private var btnSignUp: Button? = null
+//    private var btnResetPassword: Button? = null
+//    private var showPass: ImageView? = null
 
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_login_screen)
 
-        btnSignIn = findViewById(R.id.registerBtn) as Button
-        btnSignUp = findViewById(R.id.loginBtn) as Button
-        inputEmail = findViewById(R.id.loginEmail) as EditText
-        inputPassword = findViewById(R.id.loginPassword) as EditText
-        btnResetPassword = findViewById(R.id.forgotPassBtn) as Button
-        showPass = findViewById(R.id.showPasswordBtn) as ImageView
+//        btnSignIn = findViewById(R.id.registerBtn) as Button
+//        btnSignUp = findViewById(R.id.loginBtn) as Button
+//        inputEmail = findViewById(R.id.loginEmail) as EditText
+//        inputPassword = findViewById(R.id.loginPassword) as EditText
+//        btnResetPassword = findViewById(R.id.forgotPassBtn) as Button
+//        showPass = findViewById(R.id.showPasswordBtn) as ImageView
 
         val auth = FirebaseAuth.getInstance()
 
-        showPass!!.setOnTouchListener(View.OnTouchListener { v, event ->
+        if (auth.currentUser != null){
+            goMainPage()
+        }
+
+        showPasswordBtn.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 loginPassword.inputType = InputType.TYPE_CLASS_TEXT
             }
@@ -59,12 +63,12 @@ class LoginScreen : AppCompatActivity() {
             true
         })
 
-        btnSignUp!!.setOnClickListener {
+        registerBtn!!.setOnClickListener {
             val intent = Intent(this@LoginScreen, RegisterPage::class.java)
             startActivity(intent);
         }
 
-        btnResetPassword!!.setOnClickListener {
+        forgotPassBtn.setOnClickListener {
             val intent = Intent(this@LoginScreen, ForgotPassword::class.java)
             startActivity(intent);
         }
@@ -76,9 +80,9 @@ class LoginScreen : AppCompatActivity() {
 
         //the user pressed the log in button
 
-        btnSignIn!!.setOnClickListener {
-            val email = inputEmail!!.text.toString().trim()
-            val password = inputPassword!!.text.toString().trim()
+        loginBtn.setOnClickListener {
+            val email = loginEmail!!.text.toString().trim()
+            val password = loginPassword!!.text.toString().trim()
 
             if (TextUtils.isEmpty(email)){
                 Toast.makeText(applicationContext,"Please enter your Email address", Toast.LENGTH_LONG).show()
@@ -95,8 +99,7 @@ class LoginScreen : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful){
                     Toast.makeText(this, "Welcome!", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@LoginScreen, MainPage::class.java)
-                    startActivity(intent)
+                    goMainPage()
                 finish()
                 } else{
                     Log.i(TAG,"signInWithEmailAndPassword failed", task.exception)
@@ -105,5 +108,17 @@ class LoginScreen : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun goMainPage() {
+        Log.i(TAG, "goMainPage called")
+        val intent = Intent(this, MainPage::class.java)
+
+        //intent.putExtra()
+        startActivity(intent)
+
+        //finish will make it so that clicking back exits the app.
+        //Without finish, after logging in and clicking back, you go back to login screen
+        finish()
     }
 }

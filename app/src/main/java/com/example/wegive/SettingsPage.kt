@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.wegive.SettingsWallet
+import com.example.wegive.utils.FirebaseUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_settings_page.*
@@ -14,6 +15,7 @@ private const val TAG = "SettingsPage"
 class SettingsPage : AppCompatActivity() {
 
 
+    private val firebaseObj: FirebaseUtil = FirebaseUtil()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,8 @@ class SettingsPage : AppCompatActivity() {
         btn_logout.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View): Unit {
                 Log.i(TAG, "User wants to log out")
-                FirebaseAuth.getInstance().signOut()
+                //FirebaseAuth.getInstance().signOut()
+                firebaseObj.getAuth().signOut()
 
                 val intent = Intent(this@SettingsPage, LoginScreen::class.java)
                 startActivity(intent);

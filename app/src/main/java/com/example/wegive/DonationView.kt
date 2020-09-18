@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.wegive.R
 import com.example.wegive.utils.FirebaseUtil
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_donation.*
 import kotlin.math.roundToInt
 
@@ -39,8 +36,7 @@ class DonationView: AppCompatActivity() {
         setContentView(R.layout.activity_donation)
         receiverId = intent.getStringExtra("receiverID")
         type = intent.getStringExtra("type")
-
-        tv_receiver_donationView.setText(receiverId)
+        tv_receiver.setText(receiverId)
 
         firebaseObj.getUserRef().get().addOnSuccessListener { document->
             if (document != null){
@@ -74,6 +70,10 @@ class DonationView: AppCompatActivity() {
         btn_cancel.setOnClickListener {
             Toast.makeText(this, "Donate cancelled...Ya bastard", Toast.LENGTH_LONG).show()
             endActivity() }
+        btn_5nis.setOnClickListener { et_donationAmount.setText(5.toString()) }
+        btn_10nis.setOnClickListener { et_donationAmount.setText(10.toString()) }
+        btn_15nis.setOnClickListener { et_donationAmount.setText(15.toString()) }
+        btn_20nis.setOnClickListener { et_donationAmount.setText(20.toString()) }
     }
 
     private fun sendDonation() {
@@ -87,16 +87,15 @@ class DonationView: AppCompatActivity() {
             orderRefID = "u"+totalNumOrgDonationsInSystem.toString()
         }
 
-        val recvAmount: Float = editTextNumber.text.toString().toFloat()
+        val recvAmount: Float = et_donationAmount.text.toString().toFloat()
         var memo: String = et_memo_donationView.text.toString()
-        val favorite: Boolean = checkBox_addToFavorites.isChecked
+        //val favorite: Boolean = checkBox_addToFavorites.isChecked
 
         val donation = hashMapOf(
             "receiver_id" to receiverId,
             "donation_amount" to recvAmount,
             "memo" to memo,
-            "date_donation" to FieldValue.serverTimestamp(),
-            "favorite" to favorite
+            "date_donation" to FieldValue.serverTimestamp()
         )
 
         firebaseObj.getUserRef().collection("donations").document(orderRefID).set(donation)

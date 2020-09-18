@@ -7,14 +7,14 @@
     tools:context=".WalletPage">
 
     <ImageButton
-        android:id="@+id/btn_cat_two2"
+        android:id="@+id/btn_people"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@null"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_cat_two"
-        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
+        app:layout_constraintStart_toEndOf="@+id/btn_organizations"
+        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
         app:srcCompat="@drawable/walletoff" />
 
     <ImageView
@@ -22,7 +22,7 @@
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_marginTop="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/ttl_wgc3"
+        app:layout_constraintEnd_toStartOf="@+id/tv_totalDonated_walletPage"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_td2"
@@ -30,7 +30,7 @@
         app:tint="#5C636E" />
 
     <TextView
-        android:id="@+id/ttl_wgc3"
+        android:id="@+id/tv_totalDonated_walletPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <TextView
-        android:id="@+id/ttl_wgc2"
+        android:id="@+id/tv_availableCoins_walletPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -123,7 +123,7 @@
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_marginTop="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/ttl_wgc2"
+        app:layout_constraintEnd_toStartOf="@+id/tv_availableCoins_walletPage"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/tv_wgc2"
@@ -161,7 +161,7 @@
         app:srcCompat="@drawable/ic_search2" />
 
     <ImageButton
-        android:id="@+id/btn_cat_one"
+        android:id="@+id/btn_stores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -169,58 +169,21 @@
         android:layout_marginEnd="20dp"
         android:background="@null"
         android:scaleType="fitXY"
-        app:layout_constraintEnd_toStartOf="@+id/btn_cat_two"
+        app:layout_constraintEnd_toStartOf="@+id/btn_organizations"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
         app:srcCompat="@drawable/walleton" />
 
     <ImageButton
-        android:id="@+id/btn_cat_two"
+        android:id="@+id/btn_organizations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@null"
         app:layout_constraintEnd_toEndOf="@+id/imageView9"
         app:layout_constraintStart_toStartOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@+id/ttl_wgc3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_totalDonated_walletPage"
         app:srcCompat="@drawable/walletoff" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cat_two" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stores"
-        app:layout_constraintEnd_toEndOf="@+id/btn_cat_one"
-        app:layout_constraintStart_toStartOf="@+id/btn_cat_one"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cat_one" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Organizations"
-        app:layout_constraintEnd_toEndOf="@+id/btn_cat_two"
-        app:layout_constraintStart_toStartOf="@+id/btn_cat_two"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cat_two" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="People"
-        app:layout_constraintEnd_toEndOf="@+id/btn_cat_two2"
-        app:layout_constraintStart_toStartOf="@+id/btn_cat_two2"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cat_two2" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_WalletPage"
@@ -229,9 +192,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/listviewrow_donations" />
+
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/cardView"-->
+<!--        android:layout_width="409dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_cat_two" />-->
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stores"
+        app:layout_constraintEnd_toEndOf="@+id/btn_stores"
+        app:layout_constraintStart_toStartOf="@+id/btn_stores"
+        app:layout_constraintTop_toBottomOf="@+id/btn_stores" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Organizations"
+        app:layout_constraintEnd_toEndOf="@+id/btn_organizations"
+        app:layout_constraintStart_toStartOf="@+id/btn_organizations"
+        app:layout_constraintTop_toBottomOf="@+id/btn_organizations" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="People"
+        app:layout_constraintEnd_toEndOf="@+id/btn_people"
+        app:layout_constraintStart_toStartOf="@+id/btn_people"
+        app:layout_constraintTop_toBottomOf="@+id/btn_people" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

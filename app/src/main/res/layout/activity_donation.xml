@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btn_five2"
+        android:id="@+id/btn_5nis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
@@ -16,12 +16,12 @@
         android:background="@null"
         android:text="5 ₪"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_five3"
+        app:layout_constraintEnd_toStartOf="@+id/btn_10nis"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
-        android:id="@+id/btn_five3"
+        android:id="@+id/btn_10nis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -29,11 +29,11 @@
         android:background="@null"
         android:text="10 ₪"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_five"
+        app:layout_constraintEnd_toStartOf="@+id/btn_15nis"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
-        android:id="@+id/btn_five4"
+        android:id="@+id/btn_20nis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -117,7 +117,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView24" />
 
     <Button
-        android:id="@+id/btn_five"
+        android:id="@+id/btn_15nis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -125,7 +125,7 @@
         android:background="@null"
         android:text="15 ₪"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_five4"
+        app:layout_constraintEnd_toStartOf="@+id/btn_20nis"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
@@ -136,13 +136,13 @@
         android:layout_marginEnd="20dp"
         android:text="Other Amount"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
+        app:layout_constraintEnd_toStartOf="@+id/et_donationAmount"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_five2" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_5nis" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/et_donationAmount"
         android:layout_width="120dp"
         android:layout_height="45dp"
         android:layout_marginTop="15dp"
@@ -150,7 +150,7 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_five" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_15nis" />
 
     <Button
         android:id="@+id/btn_donate"
@@ -165,7 +165,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2"
+        app:layout_constraintTop_toBottomOf="@+id/et_memo_donationView"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -182,7 +182,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.231"
         app:layout_constraintStart_toEndOf="@+id/btn_donate"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2"
+        app:layout_constraintTop_toBottomOf="@+id/et_memo_donationView"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -195,11 +195,11 @@
         android:textColor="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
-        app:layout_constraintTop_toBottomOf="@+id/btn_five" />
+        app:layout_constraintStart_toEndOf="@+id/et_donationAmount"
+        app:layout_constraintTop_toBottomOf="@+id/btn_15nis" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine2"
+        android:id="@+id/et_memo_donationView"
         android:layout_width="209dp"
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
@@ -208,16 +208,16 @@
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/et_donationAmount" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Comment"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextMultiLine2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber"
+        app:layout_constraintBottom_toTopOf="@+id/et_memo_donationView"
+        app:layout_constraintStart_toStartOf="@+id/et_memo_donationView"
+        app:layout_constraintTop_toBottomOf="@+id/et_donationAmount"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
