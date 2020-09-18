@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wegive.models.*
 import com.example.wegive.utils.FirebaseUtil
+import kotlinx.android.synthetic.main.activity_store_paymaent.*
 import kotlinx.android.synthetic.main.activity_wallet_page.*
 import kotlinx.android.synthetic.main.activity_wallet_page.btn_back
 import kotlinx.android.synthetic.main.item_charity.*
@@ -229,8 +230,11 @@ class WalletPage : AppCompatActivity() {
 
 
     private fun storeClicked(store: Store) {
-        Toast.makeText(this, "Clicked: ${store.storeName} 2!!!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Clicked: ${store.storeName} !!!", Toast.LENGTH_SHORT).show()
         val intent = Intent(this@WalletPage, StorePayment::class.java)
+        intent.putExtra("storeName",store.storeName)
+        intent.putExtra("storeAddress",store.storeWebsite)
+
         startActivity(intent)
     }
 

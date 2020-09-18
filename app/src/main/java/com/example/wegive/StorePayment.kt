@@ -26,7 +26,8 @@ class StorePayment: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store_paymaent)
         Log.i(TAG, "Entered StorePayment onCreate")
-
+        tv_storename.text = intent.getStringExtra("storeName")
+        tv_storeaddress.text = intent.getStringExtra("storeAddress")
 
 
         btn_pay.setOnClickListener {
