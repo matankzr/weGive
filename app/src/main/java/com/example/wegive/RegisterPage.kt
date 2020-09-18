@@ -2,11 +2,14 @@ package com.example.wegive
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.*
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
-import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.Switch
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,12 +46,10 @@ class RegisterPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        Log.d(TAG, "inside onCreate")
         //Get Firebase Instances
         mAuth = FirebaseAuth.getInstance()
         //Get instance of FirebaseDatabase
         mFirebaseFirestoreInstances = FirebaseFirestore.getInstance()
-        Log.d(TAG, "look at me")
 
 
 //        btnSignUp = findViewById(R.id.registerBtnRegisterPage) as Button
@@ -69,6 +70,13 @@ class RegisterPage : AppCompatActivity() {
         registerBtnRegisterPage.setOnClickListener {
             onRegisterClicked()
         }
+        img_picture.setOnClickListener{
+                val intent1 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (intent1.resolveActivity(packageManager) != null) {
+                startActivityForResult(intent1, 1)
+            }
+        }
+
 
 //        btnSignUp!!.setOnClickListener {
 ////            val email = inputEmail!!.text.toString().trim()
@@ -81,7 +89,40 @@ class RegisterPage : AppCompatActivity() {
 //
 //        }
     }
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "got to res")
+
+        if (requestCode == 1) {
+            Log.d(TAG, "requestCode is correct")
+            val photo : Bitmap = data?.extras?.get("data") as Bitmap
+            img_picture.setImageBitmap(getCroppedBitmap(photo))
+        }
+    }
+    fun getCroppedBitmap(bitmap: Bitmap): Bitmap? {
+        val output = Bitmap.createBitmap(
+            bitmap.width,
+            bitmap.height, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(output)
+        val color = -0xbdbdbe
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        paint.setAntiAlias(true)
+        canvas.drawARGB(0, 0, 0, 0)
+        paint.setColor(color)
+        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawCircle(
+            (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat(),
+            (bitmap.width / 2).toFloat(), paint
+        )
+        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
+        //return _bmp;
+        return output
+    }
     fun onRegisterClicked(){
         Log.d(TAG, "entered onRegisterClicked")
 
@@ -137,9 +178,16 @@ class RegisterPage : AppCompatActivity() {
 //        }
 
         //creating user
-        mAuth!!.createUserWithEmailAndPassword(et_email_registerActvity.text.toString(), et_password_registerActvity.text.toString())
-            .addOnCompleteListener(this){task ->
-                Toast.makeText(this,"createUserWithEmail:onComplete"+task.isSuccessful,Toast.LENGTH_SHORT).show()
+        mAuth!!.createUserWithEmailAndPassword(
+            et_email_registerActvity.text.toString(),
+            et_password_registerActvity.text.toString()
+        )
+            .addOnCompleteListener(this){ task ->
+                Toast.makeText(
+                    this,
+                    "createUserWithEmail:onComplete" + task.isSuccessful,
+                    Toast.LENGTH_SHORT
+                ).show()
                 //progressBar.visibility= View.GONE
 
                 // When the sign-in is failed, a message to the user is displayed. If the sign-in is successful, auth state listener will get notified, and logic to handle the signed-in user can be handled in the listener.
@@ -163,11 +211,15 @@ class RegisterPage : AppCompatActivity() {
                     mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)?.set(myUser)
 
                     val docRef=mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
-                    startActivity(Intent(this,LoginScreen::class.java))
+                    startActivity(Intent(this, LoginScreen::class.java))
                     finish()
                 }else{
-                    Toast.makeText(this,"Authentication Failed"+task.exception,Toast.LENGTH_SHORT).show()
-                    Log.e("MyTag",task.exception.toString())
+                    Toast.makeText(
+                        this,
+                        "Authentication Failed" + task.exception,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("MyTag", task.exception.toString())
                 }
             }
     }
