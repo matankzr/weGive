@@ -112,7 +112,7 @@ class MainPage : AppCompatActivity() {
                 tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
                 //val photo = getCroppedBitmap()
-                Glide.with(this).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
+                Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
             }
         }
     }

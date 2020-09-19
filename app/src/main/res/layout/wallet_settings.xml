@@ -98,7 +98,7 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <TextView
-        android:id="@+id/tv_Credit"
+        android:id="@+id/tv_Credit_stars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
@@ -117,7 +117,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toEndOf="@+id/tv_Credit"
+        app:layout_constraintStart_toEndOf="@+id/tv_Credit_stars"
         app:layout_constraintTop_toBottomOf="@+id/imageView23" />
 
     <TextView
@@ -132,15 +132,15 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView23" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tv_EnterCredCardNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Credit Card Number: "
-        app:layout_constraintBottom_toTopOf="@+id/cardNumber"
-        app:layout_constraintStart_toStartOf="@+id/cardNumber" />
+        app:layout_constraintBottom_toTopOf="@+id/et_cardNumber"
+        app:layout_constraintStart_toStartOf="@+id/et_cardNumber" />
 
     <EditText
-        android:id="@+id/cardNumber"
+        android:id="@+id/et_cardNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -162,7 +162,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/et_cardNumber" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

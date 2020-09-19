@@ -28,8 +28,6 @@ private const val TAG="SettingsAccount"
 class SettingsAccount : AppCompatActivity() {
     private val firebaseObj: FirebaseUtil = FirebaseUtil()
 
-//    private var mFirebaseDatabaseInstance: FirebaseFirestore?=null
-//    private var userId:String?=null
     private val PICK_IMAGE_REQUEST = 71
     private var filePath: Uri? = null
 
@@ -42,10 +40,10 @@ class SettingsAccount : AppCompatActivity() {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@SettingsAccount, SettingsPage::class.java)
                 startActivity(intent);
+                finish()
             }
         })
 
-        //getDataOnce()
         listenToUser()
 
         // Set a click listener for the button widget
@@ -55,13 +53,9 @@ class SettingsAccount : AppCompatActivity() {
                 .addOnCompleteListener {
                    // getDataOnce()
                 }
-//            if(switch_colu.isChecked){
-//                firebaseObj.getUserRef().update("useForColu",false)
-//            } else{
-//                firebaseObj.getUserRef().update("useForColu",true)
-//            }
-
         }
+
+
 
         img_picture.setOnClickListener {
             launchGallery()
@@ -74,8 +68,6 @@ class SettingsAccount : AppCompatActivity() {
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
-
-    var selectedPhotoUri: Uri?=null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -114,8 +106,7 @@ class SettingsAccount : AppCompatActivity() {
         )
         paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
         canvas.drawBitmap(bitmap, rect, rect, paint)
-        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
-        //return _bmp;
+
         return output
     }
 
@@ -163,28 +154,8 @@ class SettingsAccount : AppCompatActivity() {
                 Toast.makeText(this, "Error saving to DB", Toast.LENGTH_LONG).show()
             }
 
-//        db.collection("posts")
-//            .add(data)
-//            .addOnSuccessListener { documentReference ->
-//                Toast.makeText(this, "Saved to DB", Toast.LENGTH_LONG).show()
-//            }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(this, "Error saving to DB", Toast.LENGTH_LONG).show()
-//            }
     }
 
-
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 3 && resultCode== Activity.RESULT_OK && data != null){
-//            Log.d(TAG, "photo was selected")
-//            selectedPhotoUri = data.data
-//            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,selectedPhotoUri)
-//            val bitmapDrawable = BitmapDrawable(bitmap)
-//            img_profilePic_accountSettings.setBackgroundDrawable(bitmapDrawable)
-//        }
-//    }
 
     private fun listenToUser() {
         firebaseObj.getUserRef().addSnapshotListener { value, error ->
@@ -201,7 +172,7 @@ class SettingsAccount : AppCompatActivity() {
                 tv_lastName_accountSettings.setText(user?.lastName)
                 tv_email_accountSettings.setText(user?.email)
                 if (user?.profile_image_url!!.isNotEmpty()){
-                    Glide.with(this).load(value.get("profile_image_url")).circleCrop().into(img_picture)
+                    Glide.with(getApplicationContext()).load(value.get("profile_image_url")).circleCrop().into(img_picture)
                 }
                 //switch_colu.isChecked = (user?.useForColu!!)
 
