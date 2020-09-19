@@ -148,15 +148,16 @@ class SettingsWallet : AppCompatActivity() {
             }
 
             if (value != null){
-                hasCreditCardInfo = value.get("hasCC") as Boolean
-
-                if (hasCreditCardInfo){
-                    last4Digits = value.get("last4").toString()
-                    Log.d(TAG, "user DOES have CC")
-                    showWhenHasCC()
-                } else{
-                    Log.d(TAG, "user DOES NOT have CC")
-                    showWhenDoesntHaveCC()
+                if (value.get("hasCC") != null) {
+                    hasCreditCardInfo = value.get("hasCC") as Boolean
+                    if (hasCreditCardInfo) {
+                        last4Digits = value.get("last4").toString()
+                        Log.d(TAG, "user DOES have CC")
+                        showWhenHasCC()
+                    } else {
+                        Log.d(TAG, "user DOES NOT have CC")
+                        showWhenDoesntHaveCC()
+                    }
                 }
             }
         }
