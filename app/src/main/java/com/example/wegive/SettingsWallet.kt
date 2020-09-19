@@ -154,10 +154,11 @@ class SettingsWallet : AppCompatActivity() {
                         last4Digits = value.get("last4").toString()
                         Log.d(TAG, "user DOES have CC")
                         showWhenHasCC()
+                    }
                     } else {
                         Log.d(TAG, "user DOES NOT have CC")
                         showWhenDoesntHaveCC()
-                    }
+
                 }
             }
         }
