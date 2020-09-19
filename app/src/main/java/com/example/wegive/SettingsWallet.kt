@@ -7,7 +7,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wegive.utils.FirebaseUtil
+import kotlinx.android.synthetic.main.account_settings.*
 import kotlinx.android.synthetic.main.wallet_settings.*
+import kotlinx.android.synthetic.main.wallet_settings.btn_back
 
 
 private const val TAG = "SettingsWallet"
@@ -20,7 +22,8 @@ class SettingsWallet : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.wallet_settings)
 
-        listenToUser()
+        //listenToUser()
+        getDataOnce()
 
         tv_deletecard.setOnClickListener {
             removeCardInformation();
@@ -109,8 +112,8 @@ class SettingsWallet : AppCompatActivity() {
         et_cardNumber.isEnabled = false
 
         //delete card text view
-        tv_deletecard.isEnabled = false;
         tv_deletecard.visibility = View.INVISIBLE
+        tv_deletecard.isEnabled = false;
 
         //the credit card number text views
         tv_Credit_stars.visibility = View.INVISIBLE
@@ -141,6 +144,7 @@ class SettingsWallet : AppCompatActivity() {
     }
 
     private fun listenToUser() {
+        Log.d(TAG, "just entered listenToUser()")
         firebaseObj.getUserRef().addSnapshotListener { value, error ->
             if (error != null){
                 Log.w(TAG, "Listen failed for user", error)
@@ -163,6 +167,26 @@ class SettingsWallet : AppCompatActivity() {
             }
         }
     }
+
+    private fun getDataOnce(){
+        Log.d(TAG, "just entered getDataOnce")
+        firebaseObj.getUserRef()?.get()?.addOnSuccessListener { documentSnapshot ->
+            Log.i(TAG, "Just entered addOnSuccessListener")
+            val user=documentSnapshot.toObject(User::class.java)
+            hasCreditCardInfo = user?.hasCC!!
+            if (hasCreditCardInfo) {
+
+                last4Digits = user?.last4
+                Log.d(TAG, "user DOES have CC")
+                showWhenHasCC()
+            }
+            else {
+                Log.d(TAG, "user DOES NOT have CC")
+                showWhenDoesntHaveCC()
+            }
+        }
+    }
+
 
     private fun removeCardInformation() {
         firebaseObj.getUserRef().update("hasCC",false)
