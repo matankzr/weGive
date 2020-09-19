@@ -106,7 +106,7 @@ class RegisterPage : AppCompatActivity() {
             val photo : Bitmap = data?.extras?.get("data") as Bitmap
             val circularPhoto = getCroppedBitmap(photo)
             val circularPhotoURI = circularPhoto?.let { readWriteImage(it) }
-            img_picture.setImageBitmap(circularPhoto)
+            img_picture.setImageURI(circularPhotoURI)
         }
     }
     fun readWriteImage(bitmap: Bitmap): Uri {
