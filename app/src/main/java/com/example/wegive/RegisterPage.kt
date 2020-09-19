@@ -1,9 +1,13 @@
 package com.example.wegive
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent.getActivity
+import android.content.Context
 import android.content.Intent
 import android.graphics.*
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
@@ -14,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_register.*
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 
 
 private const val TAG = "RegisterPage"
@@ -97,9 +104,32 @@ class RegisterPage : AppCompatActivity() {
         if (requestCode == 1) {
             Log.d(TAG, "requestCode is correct")
             val photo : Bitmap = data?.extras?.get("data") as Bitmap
-            img_picture.setImageBitmap(getCroppedBitmap(photo))
+            val circularPhoto = getCroppedBitmap(photo)
+            val circularPhotoURI = circularPhoto?.let { readWriteImage(it) }
+            img_picture.setImageBitmap(circularPhoto)
         }
     }
+    fun readWriteImage(bitmap: Bitmap): Uri {
+        // store in DCIM/Camera directory
+        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+        val cameraDir = File(dir, "Camera/")
+
+        val file = if (cameraDir.exists()) {
+            File(cameraDir, "LK_${System.currentTimeMillis()}.png")
+        } else {
+            cameraDir.mkdir()
+            File(cameraDir, "LK_${System.currentTimeMillis()}.png")
+        }
+
+        val fos = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        fos.flush()
+        fos.close()
+
+        return Uri.fromFile(file)
+    }
+
+
     fun getCroppedBitmap(bitmap: Bitmap): Bitmap? {
         val output = Bitmap.createBitmap(
             bitmap.width,
