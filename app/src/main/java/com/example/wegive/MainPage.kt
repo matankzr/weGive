@@ -2,17 +2,21 @@ package com.example.wegive
 import java.util.*
 
 import android.content.Intent
+import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.wegive.utils.FirebaseUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.account_settings.*
 import kotlinx.android.synthetic.main.activity_main_page.*
+import kotlinx.android.synthetic.main.item_store.view.*
 
 
 private const val TAG="MainPage"
@@ -107,8 +111,34 @@ class MainPage : AppCompatActivity() {
                 tv_helloPerson.setText("Hello " + snapshot.get("firstName").toString())
                 tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
+                //val photo = getCroppedBitmap()
+                Glide.with(this).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
             }
         }
+    }
+
+    fun getCroppedBitmap(bitmap: Bitmap): Bitmap? {
+        val output = Bitmap.createBitmap(
+            bitmap.width,
+            bitmap.height, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(output)
+        val color = -0xbdbdbe
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        paint.setAntiAlias(true)
+        canvas.drawARGB(0, 0, 0, 0)
+        paint.setColor(color)
+        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawCircle(
+            (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat(),
+            (bitmap.width / 2).toFloat(), paint
+        )
+        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
+        //return _bmp;
+        return output
     }
 
 }

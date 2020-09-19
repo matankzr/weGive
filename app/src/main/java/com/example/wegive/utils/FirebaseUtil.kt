@@ -1,11 +1,13 @@
 package com.example.wegive.utils
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+
 
 private const val TAG="FirebaseUtil"
 
@@ -14,6 +16,7 @@ class FirebaseUtil {
     private var firestoreInstance: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var user= FirebaseAuth.getInstance().currentUser
     private var userId: String= user!!.uid
+    private var usersRef = firestoreInstance.collection("users")
     private var userRef = firestoreInstance.collection("users").document(userId)
 
     private val userFavoritesRef: CollectionReference = userRef.collection("favorites")
@@ -23,6 +26,9 @@ class FirebaseUtil {
     private val donationsRef: DocumentReference = firestoreInstance.collection("donations").document("donationManager")
     private val charityOrganizationsRef: CollectionReference = firestoreInstance.collection("charityOrganization")
     private val storesRef: CollectionReference = firestoreInstance.collection("stores")
+
+    private val mStorageRef: StorageReference = FirebaseStorage.getInstance().getReference()
+
 
     fun getAuth(): FirebaseAuth {
         return firebaseAuth
@@ -35,6 +41,9 @@ class FirebaseUtil {
     }
     fun getUserRef(): DocumentReference{
         return userRef
+    }
+    fun getUsersRef(): CollectionReference{
+        return usersRef
     }
     fun getUserID():String{
         return userId
@@ -53,5 +62,8 @@ class FirebaseUtil {
     }
     fun getDonationsRef(): DocumentReference{
         return donationsRef
+    }
+    fun getStorageRef(): StorageReference{
+        return mStorageRef
     }
 }

@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/wallettopbar" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/userProfilePic_mainPage"
         android:layout_width="92dp"
         android:layout_height="92dp"
         android:layout_marginStart="16dp"
@@ -37,7 +37,7 @@
         android:layout_marginTop="35dp"
 
         android:textSize="32sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/userProfilePic_mainPage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -59,7 +59,7 @@
         android:layout_marginTop="5dp"
         android:text="Total Donations"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/userProfilePic_mainPage"
         app:layout_constraintTop_toBottomOf="@+id/tv_helloPerson" />
 
     <TextView
@@ -72,7 +72,7 @@
         android:layout_marginEnd="10dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/userProfilePic_mainPage"
         app:layout_constraintTop_toBottomOf="@+id/tv_td" />
 
     <TextView
@@ -108,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/userProfilePic_mainPage"
         app:srcCompat="@drawable/img_1" />
 
     <TextView

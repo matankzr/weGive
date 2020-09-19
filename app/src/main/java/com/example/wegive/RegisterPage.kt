@@ -78,7 +78,7 @@ class RegisterPage : AppCompatActivity() {
             onRegisterClicked()
         }
         img_picture.setOnClickListener{
-                val intent1 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val intent1 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (intent1.resolveActivity(packageManager) != null) {
                 startActivityForResult(intent1, 1)
             }
