@@ -50,7 +50,7 @@ class CharityAdapter(
             itemView.tv_name_itemCharity.text = charity.charityName
             Glide.with(context).load(charity.imageURL).into(itemView.iv_photo_itemCharity)
             itemView.iv_photo_itemCharity.setOnClickListener { clickListener(charity) }
-            itemView.btn_favorite_itemCharity.setOnClickListener { clickListener2(charity) }
+            //itemView.btn_favorite_itemCharity.setOnClickListener { clickListener2(charity) }
         }
 
     }

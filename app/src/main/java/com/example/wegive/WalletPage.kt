@@ -11,10 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wegive.models.*
 import com.example.wegive.utils.FirebaseUtil
-import kotlinx.android.synthetic.main.activity_store_paymaent.*
 import kotlinx.android.synthetic.main.activity_wallet_page.*
 import kotlinx.android.synthetic.main.activity_wallet_page.btn_back
-import kotlinx.android.synthetic.main.item_charity.*
 
 
 private const val TAG = "WalletPage"
@@ -25,13 +23,14 @@ class WalletPage : AppCompatActivity() {
     private var donations: MutableList<Donation> = mutableListOf()
     private var charityOrganizations: MutableList<Charity> = mutableListOf()
     private var stores: MutableList<Store> = mutableListOf()
-
+    private var persons: MutableList<Person> = mutableListOf()
 
     private var btnSelected: Int = 1
 
     private lateinit var adapter: DonationAdapter
     private lateinit var organizationAdapter: CharityAdapter
     private lateinit var storesAdapter: StoreAdapter
+    private lateinit var personAdapter: PersonAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +39,11 @@ class WalletPage : AppCompatActivity() {
         Log.i(TAG, "Entered onCreate")
 
 
-
         listenToUser()
-        listenToDonations()
-        listenToOrganizations()
+        //listenToDonations()
         listenToStores()
+//        listenToOrganizations()
+//        listenToPeople()
 
         searchtxt.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {
@@ -99,6 +98,16 @@ class WalletPage : AppCompatActivity() {
             }
         }
 
+        btn_people.setOnClickListener {
+            Log.i(TAG, "button cat one selected")
+            btnSelected = 3
+            if (searchtxt.text.toString().isNotEmpty()){
+                searchPeople(searchtxt.text.toString().toLowerCase())
+            } else{
+                listenToPeople()
+            }
+        }
+
 
         btn_back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View): Unit {
@@ -108,13 +117,39 @@ class WalletPage : AppCompatActivity() {
         })
     }
 
+    private fun searchPeople(keyword: String) {
+        firebaseObj.getCharityPersonsRef().whereArrayContains("keywords", keyword).addSnapshotListener { snapshot, exception ->
+            Log.i(TAG,"inside filtered people.addSnapshotListener")
+
+            personAdapter = PersonAdapter(this,
+                persons,
+                { person : Person -> donateToPerson(person) })
+
+            recyclerView_WalletPage.adapter = personAdapter
+            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
+
+            if (exception!= null || snapshot == null){
+                Log.e(TAG, "Exception when querying donations", exception)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+                val personsList = snapshot.toObjects(Person::class.java)
+                persons.clear()
+                persons.addAll(personsList)
+                personAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+
     private fun searchOrganizations(keyword: String) {
         firebaseObj.getOrganizationsRef().whereArrayContains("keywords", keyword).addSnapshotListener { snapshot, exception ->
             Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 
             organizationAdapter = CharityAdapter(this,
                 charityOrganizations,
-                { charity : Charity -> partItemClicked(charity) },
+                { charity : Charity -> donateToCharity(charity) },
                 { charity : Charity -> favButtonClickHandler(charity) })
 
             recyclerView_WalletPage.adapter = organizationAdapter
@@ -157,49 +192,33 @@ class WalletPage : AppCompatActivity() {
         }
     }
 
-//    private fun getListOfStores(): MutableList<Store> {
-//        var res: MutableList<Store> = mutableListOf()
-//        Log.d(TAG, "inside getListOfStores()")
-//        firebaseObj.getStoresRef().addSnapshotListener { snapshot, exception ->
-//            Log.i(TAG,"inside charitiesRef.addSnapshotListener")
-//
-//            if (exception!= null || snapshot == null){
-//                Log.e(TAG, "Exception when querying donations", exception)
-//                return@addSnapshotListener
-//            }
-//
-//            if (snapshot != null) {
-//                val storeList = snapshot.toObjects(Store::class.java)
-//                Log.d(TAG, "storeList (snapshot.toObjects) returned: $")
-//                res = storeList
-//            }
-//        }
-//
-//        for (store in res){
-//               Log.d(TAG, "store: ${store}")
-//        }
-//        return res
-//    }
 
-    private fun partItemClicked(charity : Charity) {
+    private fun donateToCharity(charity : Charity) {
         Toast.makeText(this, "Clicked: ${charity.charityName}", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, DonationView::class.java)
         intent.putExtra("receiverID",charity.charityName)
         intent.putExtra("type","o")
         startActivity(intent)
+    }
 
+    private fun donateToPerson(person: Person ) {
+        Toast.makeText(this, "Clicked: ${person.id}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, DonationView::class.java)
+        intent.putExtra("receiverID",person.id)
+        intent.putExtra("type","p")
+        startActivity(intent)
     }
 
     private fun favButtonClickHandler(charity : Charity) {
-        var isFavorite: Boolean = btn_favorite_itemCharity.isChecked
-
-        if (isFavorite){
-            Toast.makeText(this, "Organization: ${charity.charityName} IS favorite!", Toast.LENGTH_SHORT).show()
-
-        } else{
-            Toast.makeText(this, "Organization: ${charity.charityName} IS NOT favorite ):", Toast.LENGTH_SHORT).show()
-        }
+//        var isFavorite: Boolean = btn_favorite_itemCharity.isChecked
+//
+//        if (isFavorite){
+//            Toast.makeText(this, "Organization: ${charity.charityName} IS favorite!", Toast.LENGTH_SHORT).show()
+//
+//        } else{
+//            Toast.makeText(this, "Organization: ${charity.charityName} IS NOT favorite ):", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     private fun listenToOrganizations() {
@@ -208,7 +227,7 @@ class WalletPage : AppCompatActivity() {
 
             organizationAdapter = CharityAdapter(this,
                 charityOrganizations,
-                { charity : Charity -> partItemClicked(charity) },
+                { charity : Charity -> donateToCharity(charity) },
                 { charity : Charity -> favButtonClickHandler(charity) })
 
             recyclerView_WalletPage.adapter = organizationAdapter
@@ -242,8 +261,6 @@ class WalletPage : AppCompatActivity() {
 
 
     private fun listenToStores() {
-
-
         firebaseObj.getStoresRef().addSnapshotListener { snapshot, exception ->
             Log.i(TAG,"inside charitiesRef.addSnapshotListener")
 
@@ -301,58 +318,31 @@ class WalletPage : AppCompatActivity() {
     }
 
 
-//
-//    private fun listenToTab2() {
-//        Log.i(TAG, "called listenToTab2")
-//        val donationsReference = firebaseObj.getUserDonationsRef().whereEqualTo("favorite", true)
-//
-//        adapter = DonationAdapter(this, donations)
-//        recyclerView_WalletPage.adapter = adapter
-//        recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
-//
-//        donationsReference.addSnapshotListener { snapshot, exception ->
-//            Log.i(TAG, "Inside donationsReference.addSnapshotListener")
-//
-//            if (exception!= null || snapshot == null){
-//                Log.e(TAG, "Exception when querying donations", exception)
-//                return@addSnapshotListener
-//            }
-//
-//            if (snapshot != null) {
-//                val donationsList = snapshot.toObjects(Donation::class.java)
-//                donations.clear()
-//                donations.addAll(donationsList)
-//                adapter.notifyDataSetChanged()
-////                for (donation in donationsList){
-////                    Log.i(TAG, "Donation: ${donation}")
-////                }
-//            }
-//        }
-//    }
+    private fun listenToPeople() {
+        Log.i(TAG, "called listenToPersons")
 
-    private fun listenToFavorites() {
-        Log.i(TAG, "called listenToFavorites")
-        Toast.makeText(this, "Clicked on favorites button!", Toast.LENGTH_SHORT).show()
+        firebaseObj.getCharityPersonsRef().addSnapshotListener { snapshot, exception ->
+            //Log.i(TAG,"inside getCharityPersonsRef.addSnapshotListener")
 
-//        favAdapter = FavoritesAdapter(this, favorites)
-//        recyclerView_WalletPage.adapter = favAdapter
-//        recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
-//
-//        firebaseObj.getUserFavoritesRef().addSnapshotListener { snapshot, exception ->
-//            Log.i(TAG, "Inside donationsReference.addSnapshotListener")
-//
-//            if (exception!= null || snapshot == null){
-//                Log.e(TAG, "Exception when querying favorites", exception)
-//                return@addSnapshotListener
-//            }
-//
-//            if (snapshot != null) {
-//                val favoritesList = snapshot.toObjects(Favorite::class.java)
-//                favorites.clear()
-//                favorites.addAll(favoritesList)
-//                favAdapter.notifyDataSetChanged()
-//            }
-//        }
+            personAdapter = PersonAdapter(this,
+                persons,
+                { person : Person -> donateToPerson(person) })
+
+            recyclerView_WalletPage.adapter = personAdapter
+            recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
+
+            if (exception!= null || snapshot == null){
+                Log.e(TAG, "Exception when querying donations", exception)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+                val personsList = snapshot.toObjects(Person::class.java)
+                persons.clear()
+                persons.addAll(personsList)
+                personAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun listenToUser() {

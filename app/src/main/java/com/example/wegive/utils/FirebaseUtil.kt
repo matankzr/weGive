@@ -25,6 +25,8 @@ class FirebaseUtil {
 
     private val donationsRef: DocumentReference = firestoreInstance.collection("donations").document("donationManager")
     private val charityOrganizationsRef: CollectionReference = firestoreInstance.collection("charityOrganization")
+    private val charityPersonsRef: CollectionReference = firestoreInstance.collection("charityPersons")
+
     private val storesRef: CollectionReference = firestoreInstance.collection("stores")
 
     private val mStorageRef: StorageReference = FirebaseStorage.getInstance().getReference()
@@ -65,5 +67,8 @@ class FirebaseUtil {
     }
     fun getStorageRef(): StorageReference{
         return mStorageRef
+    }
+    fun getCharityPersonsRef(): CollectionReference{
+        return charityPersonsRef
     }
 }
