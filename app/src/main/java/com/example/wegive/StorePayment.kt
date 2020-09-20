@@ -98,17 +98,26 @@ class StorePayment: AppCompatActivity() {
         textView17.setText(paymentString)
     }
     private fun pay() {
-        if(paymentString[paymentString.length-1] == '.')
+        if(paymentString != ""){
+        if(paymentString[paymentString.length-1] == '.') {
             paymentString += "00"
-        paymentAmount = paymentString.toDouble()
-        var myCoins: Long = 0
+        }
+            paymentAmount = paymentString.toDouble()
+        }
+
+        var myCoins: Double = 0.0
         firebaseObj.getUserRef().get().addOnSuccessListener { document ->
             if (document != null) {
-                myCoins = document.get("myCoins") as Long
-                if (paymentAmount <= myCoins) {
+                myCoins = document.get("myCoins") as Double
+                val foo: Any? = document.get("myCoins")
+
+                if (paymentAmount > 0 && paymentAmount <= myCoins) {
                     Log.d(TAG, "Payment successful! Payment amount is: $paymentAmount my coins are: $myCoins")
                     val docRef: DocumentReference = firebaseObj.getUserRef()
                     docRef?.update("myCoins", FieldValue.increment(-paymentAmount))
+                    val intent = Intent(this, MainPage::class.java)
+                    startActivity(intent);
+                    finish()
                 } else {
                     Toast.makeText(
                         this,

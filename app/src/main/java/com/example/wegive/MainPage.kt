@@ -14,6 +14,7 @@ import com.example.wegive.utils.FirebaseUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.account_settings.*
 import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.item_store.view.*
@@ -79,7 +80,7 @@ class MainPage : AppCompatActivity() {
         recyclerView_MainPage.adapter = adapter
         recyclerView_MainPage.layoutManager = LinearLayoutManager(this)
 
-        firebaseObj.getUserDonationsRef().addSnapshotListener { snapshot, exception ->
+        firebaseObj.getUserDonationsRef().limit(5).orderBy("date_donation",Query.Direction.DESCENDING).addSnapshotListener { snapshot, exception ->
             Log.i(TAG, "Inside donationsReference.addSnapshotListener")
 
             if (exception!= null || snapshot == null){
@@ -112,7 +113,7 @@ class MainPage : AppCompatActivity() {
                 tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
                 //val photo = getCroppedBitmap()
-                Glide.with(this).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
+                Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
             }
         }
     }

@@ -66,6 +66,7 @@ class LoginScreen : AppCompatActivity() {
         registerBtn!!.setOnClickListener {
             val intent = Intent(this@LoginScreen, RegisterPage::class.java)
             startActivity(intent);
+            finish()
         }
 
         forgotPassBtn.setOnClickListener {

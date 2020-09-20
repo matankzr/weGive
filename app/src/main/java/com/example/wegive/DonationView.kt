@@ -68,11 +68,18 @@ class DonationView: AppCompatActivity() {
 
 
         btn_donate.setOnClickListener {
-            sendDonation()
+            if (isDonationAmountLegal()){
+                sendDonation()
+            }
+            else{
+                Toast.makeText(this, "You can't donate nothing!", Toast.LENGTH_LONG).show()
+            }
         }
+
         btn_cancel.setOnClickListener {
             Toast.makeText(this, "Donate cancelled...Ya bastard", Toast.LENGTH_LONG).show()
             endActivity() }
+
         btn_5nis.setOnClickListener {
             donationAmount +=5
             et_donationAmount.setText(donationAmount.toString()) }
@@ -85,6 +92,16 @@ class DonationView: AppCompatActivity() {
         btn_20nis.setOnClickListener {
             donationAmount +=20
             et_donationAmount.setText(donationAmount.toString()) }
+    }
+
+    private fun isDonationAmountLegal(): Boolean {
+        val inputString = et_donationAmount.text.toString()
+
+        if (inputString.isNotEmpty()){
+            var numberValue = inputString.toInt()
+            return numberValue>0
+        }
+        return false
     }
 
     private fun sendDonation() {
@@ -132,6 +149,8 @@ class DonationView: AppCompatActivity() {
                     val oldAmountGiven = document.get("totalAmountGiven").toString().toInt()
                     val amountToAdd = recvAmount.roundToInt()
                     docRef.update("totalAmountGiven",oldAmountGiven+amountToAdd)
+                    val addToMyCoins = amountToAdd*0.05
+                    docRef.update("myCoins", addToMyCoins)
                 } else {
                     Log.d(TAG, "No such document!")
                 }

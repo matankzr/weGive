@@ -57,6 +57,7 @@ class SettingsPage : AppCompatActivity() {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@SettingsPage, SettingsTerms::class.java)
                 startActivity(intent);
+                finish()
             }
         })
 
@@ -64,6 +65,7 @@ class SettingsPage : AppCompatActivity() {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@SettingsPage, SettingsWallet::class.java)
                 startActivity(intent);
+                finish()
             }
         })
 
