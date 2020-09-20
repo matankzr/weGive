@@ -17,17 +17,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView23"
         app:srcCompat="@drawable/line" />
 
-    <TextView
-        android:id="@+id/tv_addCredit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp"
-        android:text="Add Credit Card"
-        android:textColor="#4CAF50"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23" />
 
     <TextView
         android:id="@+id/tv_paymentSettings"
@@ -85,84 +74,187 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/backshape" />
 
-    <ImageView
-        android:id="@+id/img_Credit"
-        android:layout_width="31dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_addCredit"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23"
-        app:srcCompat="@android:drawable/ic_input_add" />
 
-    <TextView
-        android:id="@+id/tv_Credit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="15dp"
-        android:text="****"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23" />
 
-    <TextView
-        android:id="@+id/tv_CreditNumberLastFour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="2805"
-        android:textSize="16sp"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/carddetailsLayout"
+        android:layout_width="409dp"
+        android:layout_height="293dp"
+        android:paddingTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toEndOf="@+id/tv_Credit"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView26">
 
-    <TextView
-        android:id="@+id/tv_deletecard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:text="Delete"
-        android:textColor="#E91E63"
+        <TextView
+            android:id="@+id/tv_cardnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Credit Card Number: "
+            app:layout_constraintStart_toStartOf="@+id/cardNumber"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/cardNumber"
+            android:layout_width="176dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="28dp"
+            android:ems="10"
+            android:hint="6666666666666666"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cardnumber" />
+
+        <Button
+            android:id="@+id/btn_addcard"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#1576EC"
+            android:text="ADD"
+            android:textColor="#FFFEFE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardNumber" />
+
+        <TextView
+            android:id="@+id/tv_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expiration Date"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cvv"
+            app:layout_constraintStart_toEndOf="@+id/tv_cardnumber"
+            app:layout_constraintTop_toTopOf="@+id/tv_cardnumber" />
+
+        <TextView
+            android:id="@+id/tv_cvv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="CVV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_exp" />
+
+        <EditText
+            android:id="@+id/month"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:ems="10"
+            android:hint="MM"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="@+id/tv_exp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_exp" />
+
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="50dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="20dp"
+            android:ems="10"
+            android:hint="YYYY"
+            android:inputType="date"
+            app:layout_constraintStart_toEndOf="@+id/month"
+            app:layout_constraintTop_toBottomOf="@+id/tv_exp" />
+
+        <TextView
+            android:id="@+id/tv_slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            app:layout_constraintBottom_toBottomOf="@+id/month"
+            app:layout_constraintEnd_toStartOf="@+id/year"
+            app:layout_constraintStart_toEndOf="@+id/month"
+            app:layout_constraintTop_toBottomOf="@+id/tv_exp" />
+
+        <EditText
+            android:id="@+id/cvv"
+            android:layout_width="45dp"
+            android:layout_height="41dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="@+id/tv_cvv"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cvv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addcreditLayout"
+        android:layout_width="370dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toTopOf="@+id/carddetailsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView23">
+
+        <ImageView
+            android:id="@+id/img_plus"
+            android:layout_width="31dp"
+            android:layout_height="28dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <TextView
+            android:id="@+id/tv_addCredit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Credit Card"
+            android:textColor="#4CAF50"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/img_plus"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/usercreditLayout"
+        android:layout_width="370dp"
+        android:layout_height="41dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView26"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Credit Card Number: "
-        app:layout_constraintBottom_toTopOf="@+id/cardNumber"
-        app:layout_constraintStart_toStartOf="@+id/cardNumber" />
-
-    <EditText
-        android:id="@+id/cardNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView26" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView23">
 
-    <Button
-        android:id="@+id/btn_addcard"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#1576EC"
-        android:text="ADD"
-        android:textColor="#FFFEFE"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardNumber" />
+        <TextView
+            android:id="@+id/tv_Credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:text="****"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_CreditNumberLastFour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="2805"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_Credit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_deletecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="19dp"
+            android:text="Delete"
+            android:textColor="#E91E63"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tv_CreditNumberLastFour"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
