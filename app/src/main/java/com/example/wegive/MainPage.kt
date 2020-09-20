@@ -1,24 +1,16 @@
 package com.example.wegive
-import java.util.*
 
 import android.content.Intent
 import android.graphics.*
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wegive.utils.FirebaseUtil
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.account_settings.*
 import kotlinx.android.synthetic.main.activity_main_page.*
-import kotlinx.android.synthetic.main.item_store.view.*
 
 
 private const val TAG="MainPage"
@@ -32,26 +24,34 @@ class MainPage : AppCompatActivity() {
 
 
     /////////////////////
+    private var position: Int = -1
 
     private val firebaseObj: FirebaseUtil = FirebaseUtil()
 
     //create data source for donations
     private var donations: MutableList<Donation> = mutableListOf()
     private lateinit var adapter: DonationAdapter
-    private var canMakeDonations: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+
         Log.i(TAG, "Inside MainPage onCreate")
-        Log.d(TAG,"firebaseObj.getUserId: ${firebaseObj.getUserID()}")
+        Log.d(TAG, "firebaseObj.getUserId: ${firebaseObj.getUserID()}")
+        var imageArray = arrayOf(
+            R.drawable.image1,
+            R.drawable.image2,
+            R.drawable.image3,
+            R.drawable.image4
+        )
 
 
         listenToUser()
         listenToDonations()
 
 
-        btn_settings.setOnClickListener(object: View.OnClickListener {
+
+        btn_settings.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@MainPage, SettingsPage::class.java)
                 startActivity(intent);
@@ -63,7 +63,7 @@ class MainPage : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-        btn_wallet.setOnClickListener(object: View.OnClickListener {
+        btn_wallet.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View): Unit {
                 val intent = Intent(this@MainPage, WalletPage::class.java)
                 startActivity(intent);
@@ -71,20 +71,38 @@ class MainPage : AppCompatActivity() {
         })
 
         imageView5.setOnClickListener {
-            val intent = Intent(this , DonationHistory::class.java)
+            val intent = Intent(this, DonationHistory::class.java)
             startActivity(intent);
             finish()
         }
 
         btn_scan.setOnClickListener {
-            if (canMakeDonations){
-                val intent = Intent(this , ScanActivity::class.java)
-                startActivity(intent);
-            } else{
-                Toast.makeText(this,"Please enter credit card information in order to make a donation",Toast.LENGTH_LONG).show()
+            val intent = Intent(this, ScanActivity::class.java)
+            startActivity(intent);
+        }
+        val timer: Thread = object : Thread() {
+            override fun run() {
+                try {
+                    sleep(2000)
+                    var z = 0
+                    while (z < imageArray.size + 4) {
+                        if (z < imageArray.size) {
+                            sleep(3000)
+                            runOnUiThread { imageView4.setImageResource(imageArray[z]) }
+                        } else {
+                            z = 0
+                        }
+                        z++
+                    }
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
             }
         }
+        timer.start()
     }
+
+
 
 
     private fun listenToDonations() {
@@ -92,7 +110,10 @@ class MainPage : AppCompatActivity() {
         recyclerView_MainPage.adapter = adapter
         recyclerView_MainPage.layoutManager = LinearLayoutManager(this)
 
-        firebaseObj.getUserDonationsRef().limit(5).orderBy("date_donation",Query.Direction.DESCENDING).addSnapshotListener { snapshot, exception ->
+        firebaseObj.getUserDonationsRef().limit(5).orderBy(
+            "date_donation",
+            Query.Direction.DESCENDING
+        ).addSnapshotListener { snapshot, exception ->
             Log.i(TAG, "Inside donationsReference.addSnapshotListener")
 
             if (exception!= null || snapshot == null){
@@ -125,13 +146,9 @@ class MainPage : AppCompatActivity() {
                 tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
                 //val photo = getCroppedBitmap()
-                var hasProfileImageURL = !snapshot.get("profile_image_url").toString().isNullOrEmpty()
-                if (hasProfileImageURL){
-                    Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
-                } else{
-                    userProfilePic_mainPage.setImageResource(R.drawable.profileplaceholder)
-                }
-                canMakeDonations = snapshot.get("hasCC") as Boolean
+                Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(
+                    userProfilePic_mainPage
+                )
             }
         }
     }

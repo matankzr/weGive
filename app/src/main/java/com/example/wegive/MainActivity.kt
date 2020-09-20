@@ -1,14 +1,12 @@
 package com.example.wegive
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
-import android.telephony.MbmsDownloadSession.RESULT_CANCELLED
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-
 open class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
