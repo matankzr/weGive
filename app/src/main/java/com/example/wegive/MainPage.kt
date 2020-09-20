@@ -5,6 +5,7 @@ import android.graphics.*
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -31,6 +32,8 @@ class MainPage : AppCompatActivity() {
     //create data source for donations
     private var donations: MutableList<Donation> = mutableListOf()
     private lateinit var adapter: DonationAdapter
+    private var canMakeDonations: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +80,13 @@ class MainPage : AppCompatActivity() {
         }
 
         btn_scan.setOnClickListener {
-            val intent = Intent(this, ScanActivity::class.java)
-            startActivity(intent);
+            if (canMakeDonations){
+                val intent = Intent(this , ScanActivity::class.java)
+                startActivity(intent);
+            } else{
+                Toast.makeText(this,"Please enter credit card information in order to make a donation",
+                    Toast.LENGTH_LONG).show()
+            }
         }
         val timer: Thread = object : Thread() {
             override fun run() {
@@ -146,9 +154,13 @@ class MainPage : AppCompatActivity() {
                 tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
                 //val photo = getCroppedBitmap()
-                Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(
-                    userProfilePic_mainPage
-                )
+                var hasProfileImageURL = !snapshot.get("profile_image_url").toString().isNullOrEmpty()
+                if (hasProfileImageURL){
+                    Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
+                } else{
+                    userProfilePic_mainPage.setImageResource(R.drawable.profileplaceholder)
+                }
+                canMakeDonations = snapshot.get("hasCC") as Boolean
             }
         }
     }
