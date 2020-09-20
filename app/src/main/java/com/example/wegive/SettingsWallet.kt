@@ -28,30 +28,19 @@ class SettingsWallet : AppCompatActivity() {
         tv_deletecard.setOnClickListener {
             removeCardInformation();
             showWhenDoesntHaveCC()
-            tv_deletecard.isEnabled = false;
-            tv_deletecard.visibility = View.INVISIBLE
-            tv_addCredit.isEnabled = true
-            tv_addCredit.visibility = View.VISIBLE
 
-            tv_Credit_stars.visibility = View.INVISIBLE
-            tv_CreditNumberLastFour.visibility = View.INVISIBLE
-            et_cardNumber.isEnabled = false
         }
 
         tv_addCredit.setOnClickListener {
-            tv_EnterCredCardNumber.visibility = View.VISIBLE
-            et_cardNumber.visibility = View.VISIBLE
-            et_cardNumber.isEnabled = true
-            btn_addcard.visibility = View.VISIBLE
-            btn_addcard.isEnabled = true
+            carddetailsLayout.visibility = View.VISIBLE
         }
 
         btn_addcard.setOnClickListener {
             if (allFieldsValid()){
-                val last4: String = et_cardNumber.text.toString().takeLast(4)
+                val last4: String = cardNumber.text.toString().takeLast(4)
                 updateUserCCInfo(last4)
                 tv_CreditNumberLastFour.setText(last4)
-                et_cardNumber.text.clear()
+                cardNumber.text.clear()
                 showWhenHasCC()
             }
         }
@@ -84,7 +73,7 @@ class SettingsWallet : AppCompatActivity() {
     }
 
     private fun allFieldsValid(): Boolean {
-        if (et_cardNumber.text.toString().length < 4){
+        if (cardNumber.text.toString().length < 4){
             Toast.makeText(this, "Credit Card must be at least 4 digits!", Toast.LENGTH_LONG).show()
             return false
         }
@@ -101,45 +90,17 @@ class SettingsWallet : AppCompatActivity() {
         // if no credit card is present the following should be showing
 
         //add new card text views
-        tv_addCredit.visibility = View.VISIBLE
-        tv_addCredit.isEnabled = true
-        img_Credit.visibility = View.VISIBLE
-
-        //the adding card part
-        btn_addcard.visibility = View.INVISIBLE
-        tv_EnterCredCardNumber.visibility = View.INVISIBLE
-        et_cardNumber.visibility = View.INVISIBLE
-        et_cardNumber.isEnabled = false
-
-        //delete card text view
-        tv_deletecard.visibility = View.INVISIBLE
-        tv_deletecard.isEnabled = false;
-
-        //the credit card number text views
-        tv_Credit_stars.visibility = View.INVISIBLE
-        tv_CreditNumberLastFour.visibility = View.INVISIBLE
+        addcreditLayout.visibility = View.VISIBLE
+        usercreditLayout.visibility = View.INVISIBLE
+        carddetailsLayout.visibility = View.INVISIBLE
     }
 
     private fun showWhenHasCC() {
         // if the user already added a card the following should be showing
 
-        //add new card text views
-        tv_addCredit.visibility = View.INVISIBLE
-        tv_addCredit.isEnabled = false
-        img_Credit.visibility = View.INVISIBLE
-
-        //the adding card part
-        btn_addcard.visibility = View.INVISIBLE
-        tv_EnterCredCardNumber.visibility = View.INVISIBLE
-        et_cardNumber.visibility = View.INVISIBLE
-
-        //delete card text view
-        tv_deletecard.visibility = View.VISIBLE
-        tv_deletecard.isEnabled = true
-
-        //the credit card number text views
-        tv_Credit_stars.visibility = View.VISIBLE
-        tv_CreditNumberLastFour.visibility = View.VISIBLE //should get the last four digits
+        addcreditLayout.visibility = View.INVISIBLE
+        usercreditLayout.visibility = View.VISIBLE
+        carddetailsLayout.visibility = View.INVISIBLE
         tv_CreditNumberLastFour.setText(last4Digits)
     }
 
