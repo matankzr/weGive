@@ -68,6 +68,12 @@ class MainPage : AppCompatActivity() {
             }
         })
 
+        imageView5.setOnClickListener {
+            val intent = Intent(this , DonationHistory::class.java)
+            startActivity(intent);
+            finish()
+        }
+
         btn_scan.setOnClickListener {
             val intent = Intent(this , ScanActivity::class.java)
             startActivity(intent);
@@ -109,7 +115,7 @@ class MainPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
             if (snapshot != null){
-                tv_helloPerson.setText("Hello " + snapshot.get("firstName").toString())
+                tv_helloPerson.setText("Hello " + snapshot.get("userName").toString())
                 tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
                 tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
                 //val photo = getCroppedBitmap()

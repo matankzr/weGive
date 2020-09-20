@@ -71,4 +71,5 @@ class FirebaseUtil {
     fun getCharityPersonsRef(): CollectionReference{
         return charityPersonsRef
     }
+
 }

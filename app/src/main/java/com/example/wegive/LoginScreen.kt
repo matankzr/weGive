@@ -74,9 +74,9 @@ class LoginScreen : AppCompatActivity() {
             startActivity(intent);
         }
 
-        loginFacebook.setOnClickListener{
-            //do something
-        }
+//        loginFacebook.setOnClickListener{
+//            //do something
+//        }
 
 
         //the user pressed the log in button

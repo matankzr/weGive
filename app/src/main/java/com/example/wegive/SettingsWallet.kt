@@ -28,7 +28,6 @@ class SettingsWallet : AppCompatActivity() {
         tv_deletecard.setOnClickListener {
             removeCardInformation();
             showWhenDoesntHaveCC()
-
         }
 
         tv_addCredit.setOnClickListener {
@@ -41,6 +40,9 @@ class SettingsWallet : AppCompatActivity() {
                 updateUserCCInfo(last4)
                 tv_CreditNumberLastFour.setText(last4)
                 cardNumber.text.clear()
+                month.text.clear()
+                et_year.text.clear()
+                cvv.text.clear()
                 showWhenHasCC()
             }
         }
@@ -55,6 +57,8 @@ class SettingsWallet : AppCompatActivity() {
     }
 
     private fun updateUserCCInfo(last4: String) {
+        last4Digits = last4
+
         firebaseObj.getUserRef().update("hasCC",true)
             .addOnSuccessListener {
                 Log.d(TAG, "CC info updated to true")
@@ -73,10 +77,30 @@ class SettingsWallet : AppCompatActivity() {
     }
 
     private fun allFieldsValid(): Boolean {
+        if (cardNumber.text.isNullOrEmpty() || month.text.isNullOrEmpty() || et_year.text.isNullOrEmpty() || cvv.text.isNullOrEmpty()){
+            Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_LONG).show()
+            return false
+        }
+
         if (cardNumber.text.toString().length < 4){
             Toast.makeText(this, "Credit Card must be at least 4 digits!", Toast.LENGTH_LONG).show()
             return false
         }
+        if ((month.text.toString().toInt() > 12) || (1 > month.text.toString().toInt())){
+            Toast.makeText(this, "Please enter a valid month!", Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        if (et_year.text.toString().length < 4){
+            Toast.makeText(this, "Please enter a valid year!", Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        if (cvv.text.toString().length != 3){
+            Toast.makeText(this, "Please enter a valid 3-digit cvv!", Toast.LENGTH_LONG).show()
+            return false
+        }
+
         return true
     }
 
@@ -101,7 +125,17 @@ class SettingsWallet : AppCompatActivity() {
         addcreditLayout.visibility = View.INVISIBLE
         usercreditLayout.visibility = View.VISIBLE
         carddetailsLayout.visibility = View.INVISIBLE
+        tv_CreditNumberLastFour.visibility = View.VISIBLE
         tv_CreditNumberLastFour.setText(last4Digits)
+
+
+//        //delete card text view
+//        tv_deletecard.visibility = View.VISIBLE
+//        tv_deletecard.isEnabled = true
+
+
+
+
     }
 
     private fun listenToUser() {
@@ -136,7 +170,6 @@ class SettingsWallet : AppCompatActivity() {
             val user=documentSnapshot.toObject(User::class.java)
             hasCreditCardInfo = user?.hasCC!!
             if (hasCreditCardInfo) {
-
                 last4Digits = user?.last4
                 Log.d(TAG, "user DOES have CC")
                 showWhenHasCC()

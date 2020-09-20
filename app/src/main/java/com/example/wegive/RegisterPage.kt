@@ -1,6 +1,7 @@
 package com.example.wegive
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
@@ -15,11 +16,19 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import kotlinx.android.synthetic.main.account_settings.*
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.btn_back
+import kotlinx.android.synthetic.main.activity_register.img_picture
+import kotlinx.android.synthetic.main.activity_register.switch_colu
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 
@@ -33,13 +42,8 @@ class RegisterPage : AppCompatActivity() {
     private var userId:String?=null
     private var emailAddress:String?=null
 
-//    private var inputEmail: EditText? = null
-//    private var inputPassword: EditText? = null
-//    private var inputFirstName: EditText? = null
-//    private var inputLastName: EditText? = null
-//    private var btnImage: ImageView? = null
-//    private var btnSignUp: Button? = null
-//    private var inputUserName: EditText ?= null
+    private val PICK_IMAGE_REQUEST = 71
+    private var filePath: Uri? = null
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private var useColu: Switch? = null
@@ -78,55 +82,34 @@ class RegisterPage : AppCompatActivity() {
             onRegisterClicked()
         }
         img_picture.setOnClickListener{
-            val intent1 = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (intent1.resolveActivity(packageManager) != null) {
-                startActivityForResult(intent1, 1)
+            launchGallery()
+        }
+
+
+    }
+
+    private fun launchGallery() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            if(data == null || data.data == null){
+                return
+            }
+
+            filePath = data.data
+            try {
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+                img_picture.setImageBitmap(getCroppedBitmap(bitmap))
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
-
-
-//        btnSignUp!!.setOnClickListener {
-////            val email = inputEmail!!.text.toString().trim()
-////            val password = inputPassword!!.text.toString().trim()
-////            val firstName = inputFirstName!!.text.toString().trim()
-////            val lastName = inputLastName!!.text.toString().trim()
-////            val userName = inputUserName!!.text.toString().trim()
-//
-//
-//
-//        }
-    }
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "got to res")
-
-        if (requestCode == 1) {
-            Log.d(TAG, "requestCode is correct")
-            val photo : Bitmap = data?.extras?.get("data") as Bitmap
-            val circularPhoto = getCroppedBitmap(photo)
-            val circularPhotoURI = circularPhoto?.let { readWriteImage(it) }
-            img_picture.setImageURI(circularPhotoURI)
-        }
-    }
-    fun readWriteImage(bitmap: Bitmap): Uri {
-        // store in DCIM/Camera directory
-        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val cameraDir = File(dir, "Camera/")
-
-        val file = if (cameraDir.exists()) {
-            File(cameraDir, "LK_${System.currentTimeMillis()}.png")
-        } else {
-            cameraDir.mkdir()
-            File(cameraDir, "LK_${System.currentTimeMillis()}.png")
-        }
-
-        val fos = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        fos.flush()
-        fos.close()
-
-        return Uri.fromFile(file)
     }
 
 
@@ -153,6 +136,8 @@ class RegisterPage : AppCompatActivity() {
         //return _bmp;
         return output
     }
+
+
     fun onRegisterClicked(){
         Log.d(TAG, "entered onRegisterClicked")
 
@@ -240,6 +225,9 @@ class RegisterPage : AppCompatActivity() {
                     //Try writing to Firestore
                     mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)?.set(myUser)
 
+                    uploadImage()
+
+
                     val docRef=mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
                     startActivity(Intent(this, LoginScreen::class.java))
                     finish()
@@ -263,5 +251,39 @@ class RegisterPage : AppCompatActivity() {
             useForColu = switch_colu.isChecked
         }
         return user
+    }
+
+    private fun uploadImage() {
+        if (filePath != null) {
+            val ref =
+                FirebaseStorage.getInstance().getReference("users/" + UUID.randomUUID().toString())
+
+
+            ref?.putFile(filePath!!).addOnSuccessListener {
+                Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
+
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d(TAG, "File location: $it")
+                    addUploadRecordToDb(it.toString())
+                }
+            }
+        }
+    }
+
+    private fun addUploadRecordToDb(uri: String){
+        val userdb = mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
+        //val data = HashMap<String, Any>()
+        val data = uri
+
+        if (userdb != null) {
+            userdb
+                .update("profile_image_url",data)
+                .addOnSuccessListener { documentReference ->
+                    Toast.makeText(this, "Saved to DB", Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error saving to DB", Toast.LENGTH_LONG).show()
+                }
+        }
     }
 }

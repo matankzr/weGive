@@ -135,39 +135,18 @@
         app:layout_constraintTop_toBottomOf="@+id/newToWeGive" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="OR"
-        android:textColor="#FAFCFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
-
-    <ImageButton
-        android:id="@+id/loginFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/loginfacebook" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="275dp"
         android:layout_height="53dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:text="By signing in you accept the Terms of Use and Cookies Policy, and acknowledge theat you read and understood out Privacy Policy."
         android:textAlignment="center"
         android:textColor="#FAFCFF"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginFacebook" />
+        app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
