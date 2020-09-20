@@ -133,9 +133,9 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
-        android:text="Other Amount"
+        android:text="Donation Amount"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/et_donationAmount"
         app:layout_constraintHorizontal_bias="1.0"
@@ -185,19 +185,6 @@
         app:layout_constraintStart_toEndOf="@+id/btn_donate"
         app:layout_constraintTop_toBottomOf="@+id/et_memo_donationView"
         app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_okamount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
-        android:text="OK"
-        android:textColor="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/et_donationAmount"
-        app:layout_constraintTop_toBottomOf="@+id/btn_15nis" />
 
     <EditText
         android:id="@+id/et_memo_donationView"
