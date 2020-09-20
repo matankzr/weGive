@@ -31,6 +31,8 @@ class WalletPage : AppCompatActivity() {
     private lateinit var organizationAdapter: CharityAdapter
     private lateinit var storesAdapter: StoreAdapter
     private lateinit var personAdapter: PersonAdapter
+    private var canMakeDonations: Boolean = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -194,20 +196,27 @@ class WalletPage : AppCompatActivity() {
 
 
     private fun donateToCharity(charity : Charity) {
-        Toast.makeText(this, "Clicked: ${charity.charityName}", Toast.LENGTH_SHORT).show()
-
-        val intent = Intent(this, DonationView::class.java)
-        intent.putExtra("receiverID",charity.charityName)
-        intent.putExtra("type","o")
-        startActivity(intent)
+        if (canMakeDonations){
+            Toast.makeText(this, "Clicked: ${charity.charityName}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DonationView::class.java)
+            intent.putExtra("receiverID",charity.charityName)
+            intent.putExtra("type","o")
+            startActivity(intent)
+        } else{
+            Toast.makeText(this,"Please enter credit card information in order to make a donation",Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun donateToPerson(person: Person ) {
-        Toast.makeText(this, "Clicked: ${person.id}", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, DonationView::class.java)
-        intent.putExtra("receiverID",person.id)
-        intent.putExtra("type","p")
-        startActivity(intent)
+        if (canMakeDonations){
+            Toast.makeText(this, "Clicked: ${person.id}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DonationView::class.java)
+            intent.putExtra("receiverID",person.id)
+            intent.putExtra("type","p")
+            startActivity(intent)
+        } else{
+            Toast.makeText(this,"Please enter credit card information in order to make a donation",Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun favButtonClickHandler(charity : Charity) {
@@ -356,6 +365,7 @@ class WalletPage : AppCompatActivity() {
             if (snapshot != null){
                 tv_totalDonated_walletPage.setText(snapshot.get("totalAmountGiven").toString() )
                 tv_availableCoins_walletPage.setText(snapshot.get("myCoins").toString())
+                canMakeDonations = snapshot.get("hasCC") as Boolean
             }
         }
     }

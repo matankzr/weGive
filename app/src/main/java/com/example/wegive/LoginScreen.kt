@@ -36,17 +36,11 @@ class LoginScreen : AppCompatActivity() {
 
 
     @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_screen)
-
-//        btnSignIn = findViewById(R.id.registerBtn) as Button
-//        btnSignUp = findViewById(R.id.loginBtn) as Button
-//        inputEmail = findViewById(R.id.loginEmail) as EditText
-//        inputPassword = findViewById(R.id.loginPassword) as EditText
-//        btnResetPassword = findViewById(R.id.forgotPassBtn) as Button
-//        showPass = findViewById(R.id.showPasswordBtn) as ImageView
-
+        Log.d(TAG, "entered onCreate")
         val auth = FirebaseAuth.getInstance()
 
         if (auth.currentUser != null){
@@ -64,22 +58,17 @@ class LoginScreen : AppCompatActivity() {
         })
 
         registerBtn!!.setOnClickListener {
+            Log.d(TAG, "registerBtn.setOnClickListener called")
             val intent = Intent(this@LoginScreen, RegisterPage::class.java)
             startActivity(intent);
-            finish()
         }
 
-        forgotPassBtn.setOnClickListener {
-            val intent = Intent(this@LoginScreen, ForgotPassword::class.java)
-            startActivity(intent);
+        forgotPassBtn!!.setOnClickListener {
+            Log.d(TAG, "forgotPassBtn.setOnClickListener called")
+            val forgotIntent = Intent(this, ForgotPassword::class.java)
+            startActivity(forgotIntent)
         }
 
-//        loginFacebook.setOnClickListener{
-//            //do something
-//        }
-
-
-        //the user pressed the log in button
 
         loginBtn.setOnClickListener {
             val email = loginEmail!!.text.toString().trim()
