@@ -9,7 +9,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 
-private const val TAG="FirebaseUtil"
 
 class FirebaseUtil {
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()

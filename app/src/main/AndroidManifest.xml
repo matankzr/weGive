@@ -26,8 +26,7 @@
         <activity android:name=".DonationFormActivity" />
         <activity android:name=".RegisterPage" />
         <activity android:name=".MainPage" />
-        <activity android:name=".WalletPage" />
-        <activity android:name=".ForgotPassword" />
+        <activity android:windowSoftInputMode="adjustPan" android:name=".WalletPage" />
         <activity android:name=".SplashView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +43,8 @@
         <activity android:name=".LoginScreen" />
         <activity android:name=".SettingsAccount" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ScanActivity" />
+        <activity android:name=".ForgotPassword" />
+        <activity android:name=".ScanActivity"></activity>
     </application>
 
 </manifest>

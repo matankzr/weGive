@@ -50,7 +50,7 @@ class DonationView: AppCompatActivity() {
             }
         }
             .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
+                Log.d(TAG, "failed with ", exception)
             }
 
         firebaseObj.getDonationsRef().get().addOnSuccessListener { document->
@@ -59,11 +59,11 @@ class DonationView: AppCompatActivity() {
                 totalNumOrgDonationsInSystem = document.getLong("totalNumberOfDonationsToOrganizations")?.toInt() ?:0
                 totalNumPersonDonationsInSystem = document.getLong("totalNumberOfDonationsToPeople")?.toInt() ?:0
             } else{
-                Log.d(TAG, "no such document bitch")
+                Log.d(TAG, "no such document")
             }
         }
             .addOnFailureListener {
-                Log.d(TAG, "Bitch get failed with ", it)
+                Log.d(TAG, "failed with ", it)
             }
 
 
@@ -77,7 +77,7 @@ class DonationView: AppCompatActivity() {
         }
 
         btn_cancel.setOnClickListener {
-            Toast.makeText(this, "Donate cancelled...Ya bastard", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Donation cancelled", Toast.LENGTH_LONG).show()
             endActivity() }
 
         btn_5nis.setOnClickListener {
@@ -98,7 +98,7 @@ class DonationView: AppCompatActivity() {
         val inputString = et_donationAmount.text.toString()
 
         if (inputString.isNotEmpty()){
-            var numberValue = inputString.toInt()
+            val numberValue = inputString.toInt()
             return numberValue>0
         }
         return false
@@ -116,7 +116,7 @@ class DonationView: AppCompatActivity() {
         }
 
         val recvAmount: Float = et_donationAmount.text.toString().toFloat()
-        var memo: String = et_memo_donationView.text.toString()
+        val memo: String = et_memo_donationView.text.toString()
         //val favorite: Boolean = checkBox_addToFavorites.isChecked
 
         val donation = hashMapOf(
@@ -127,7 +127,7 @@ class DonationView: AppCompatActivity() {
         )
 
         firebaseObj.getUserRef().collection("donations").document(orderRefID).set(donation)
-        updateUserDocument(firebaseObj.getUserRef(), recvAmount);
+        updateUserDocument(firebaseObj.getUserRef(), recvAmount)
         updateDonationManager(userName, receiverId, recvAmount, FieldValue.serverTimestamp(), orderRefID)
         Toast.makeText(this, "Donate Sent to ${receiverId}", Toast.LENGTH_LONG).show()
         endActivity()
@@ -135,7 +135,7 @@ class DonationView: AppCompatActivity() {
 
     private fun endActivity() {
         val intent = Intent(this@DonationView, MainPage::class.java)
-        startActivity(intent);
+        startActivity(intent)
         finish()
     }
 
@@ -178,20 +178,20 @@ class DonationView: AppCompatActivity() {
 
         val docRef: DocumentReference = firebaseObj.getDonationsRef()
 
-        docRef?.update("totalNumberOfDonations", FieldValue.increment(1))
+        docRef.update("totalNumberOfDonations", FieldValue.increment(1))
         if (type == "p"){
             firebaseObj.getDonationsRef().collection("donationsToPeople").document(orderRefID).set(donation)
-            docRef?.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
+            docRef.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
         }
 
         else if (type == "o"){
             firebaseObj.getDonationsRef().collection("donationsToOrganizations").document(orderRefID).set(donation)
-            docRef?.update("totalNumberOfDonationsToOrganizations", FieldValue.increment(1))
+            docRef.update("totalNumberOfDonationsToOrganizations", FieldValue.increment(1))
         }
 
 
-        docRef?.get()
-            ?.addOnSuccessListener { document ->
+        docRef.get()
+            .addOnSuccessListener { document ->
                 if (document != null) {
                     Log.d(TAG, "Document data: ${document.data}")
                     val oldAmountGiven = document.get("totalGivenToPeople").toString().toInt()
@@ -201,7 +201,7 @@ class DonationView: AppCompatActivity() {
                     Log.d(TAG, "No such document!")
                 }
             }
-            ?.addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
+            .addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
     }
 
 }

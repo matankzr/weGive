@@ -2,13 +2,10 @@ package com.example.wegive
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.PendingIntent.getActivity
-import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
@@ -16,18 +13,13 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
-import kotlinx.android.synthetic.main.account_settings.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.btn_back
 import kotlinx.android.synthetic.main.activity_register.img_picture
 import kotlinx.android.synthetic.main.activity_register.switch_colu
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
@@ -75,7 +67,7 @@ class RegisterPage : AppCompatActivity() {
 
         btn_back.setOnClickListener {
             val intent = Intent(this@RegisterPage, LoginScreen::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
 
         registerBtnRegisterPage.setOnClickListener {
@@ -122,18 +114,15 @@ class RegisterPage : AppCompatActivity() {
         val color = -0xbdbdbe
         val paint = Paint()
         val rect = Rect(0, 0, bitmap.width, bitmap.height)
-        paint.setAntiAlias(true)
+        paint.isAntiAlias = true
         canvas.drawARGB(0, 0, 0, 0)
-        paint.setColor(color)
-        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.color = color
         canvas.drawCircle(
             (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat(),
             (bitmap.width / 2).toFloat(), paint
         )
-        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(bitmap, rect, rect, paint)
-        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
-        //return _bmp;
         return output
     }
 
@@ -219,7 +208,7 @@ class RegisterPage : AppCompatActivity() {
                     //Creating a new user
                     //val myUser=User(et_lastName.text.toString(),emailAddress!!)
                     //val myUser = User(emailAddress!!,et_userName.text.toString(), et_firstName.text.toString(), et_lastName.text.toString())
-                    val myUser = createUser(emailAddress!!)
+                    val myUser = createUser()
 
 
                     //Try writing to Firestore
@@ -228,7 +217,7 @@ class RegisterPage : AppCompatActivity() {
                     uploadImage()
 
 
-                    val docRef=mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
+                    mFirebaseFirestoreInstances?.collection("users")?.document(userId!!)
                     startActivity(Intent(this, LoginScreen::class.java))
                     finish()
                 }else{
@@ -242,8 +231,8 @@ class RegisterPage : AppCompatActivity() {
             }
     }
 
-    private fun createUser(emailAddress: String): Any {
-        var user = User().apply {
+    private fun createUser(): Any {
+        val user = User().apply {
             email = et_email_registerActvity.text.toString()
             userName = et_userName.text.toString()
             firstName = et_firstName.text.toString()
@@ -259,7 +248,7 @@ class RegisterPage : AppCompatActivity() {
                 FirebaseStorage.getInstance().getReference("users/" + UUID.randomUUID().toString())
 
 
-            ref?.putFile(filePath!!).addOnSuccessListener {
+            ref.putFile(filePath!!).addOnSuccessListener {
                 Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {

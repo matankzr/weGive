@@ -13,6 +13,7 @@ import com.example.wegive.models.*
 import com.example.wegive.utils.FirebaseUtil
 import kotlinx.android.synthetic.main.activity_wallet_page.*
 import kotlinx.android.synthetic.main.activity_wallet_page.btn_back
+import java.util.*
 
 
 private const val TAG = "WalletPage"
@@ -84,7 +85,7 @@ class WalletPage : AppCompatActivity() {
             Log.i(TAG, "button cat two selected")
             btnSelected = 2
             if (searchtxt.text.toString().isNotEmpty()){
-                searchOrganizations(searchtxt.text.toString().toLowerCase())
+                searchOrganizations(searchtxt.text.toString().toLowerCase(Locale.ROOT))
             } else{
                 listenToOrganizations()
             }
@@ -135,12 +136,10 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-                val personsList = snapshot.toObjects(Person::class.java)
-                persons.clear()
-                persons.addAll(personsList)
-                personAdapter.notifyDataSetChanged()
-            }
+            val personsList = snapshot.toObjects(Person::class.java)
+            persons.clear()
+            persons.addAll(personsList)
+            personAdapter.notifyDataSetChanged()
         }
     }
 
@@ -152,7 +151,7 @@ class WalletPage : AppCompatActivity() {
             organizationAdapter = CharityAdapter(this,
                 charityOrganizations,
                 { charity : Charity -> donateToCharity(charity) },
-                { charity : Charity -> favButtonClickHandler(charity) })
+                { charity : Charity -> favButtonClickHandler() })
 
             recyclerView_WalletPage.adapter = organizationAdapter
             recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
@@ -162,12 +161,10 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-                val organizationsList = snapshot.toObjects(Charity::class.java)
-                charityOrganizations.clear()
-                charityOrganizations.addAll(organizationsList)
-                organizationAdapter.notifyDataSetChanged()
-            }
+            val organizationsList = snapshot.toObjects(Charity::class.java)
+            charityOrganizations.clear()
+            charityOrganizations.addAll(organizationsList)
+            organizationAdapter.notifyDataSetChanged()
         }
     }
 
@@ -184,13 +181,10 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-
-                var storeList = snapshot.toObjects(Store::class.java)
-                stores.clear()
-                stores.addAll(storeList)
-                storesAdapter.notifyDataSetChanged()
-            }
+            val storeList = snapshot.toObjects(Store::class.java)
+            stores.clear()
+            stores.addAll(storeList)
+            storesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -219,15 +213,8 @@ class WalletPage : AppCompatActivity() {
         }
     }
 
-    private fun favButtonClickHandler(charity : Charity) {
-//        var isFavorite: Boolean = btn_favorite_itemCharity.isChecked
-//
-//        if (isFavorite){
-//            Toast.makeText(this, "Organization: ${charity.charityName} IS favorite!", Toast.LENGTH_SHORT).show()
-//
-//        } else{
-//            Toast.makeText(this, "Organization: ${charity.charityName} IS NOT favorite ):", Toast.LENGTH_SHORT).show()
-//        }
+    private fun favButtonClickHandler() {
+
     }
 
     private fun listenToOrganizations() {
@@ -237,7 +224,7 @@ class WalletPage : AppCompatActivity() {
             organizationAdapter = CharityAdapter(this,
                 charityOrganizations,
                 { charity : Charity -> donateToCharity(charity) },
-                { charity : Charity -> favButtonClickHandler(charity) })
+                { charity : Charity -> favButtonClickHandler() })
 
             recyclerView_WalletPage.adapter = organizationAdapter
             recyclerView_WalletPage.layoutManager = LinearLayoutManager(this)
@@ -247,12 +234,10 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-                val organizationsList = snapshot.toObjects(Charity::class.java)
-                charityOrganizations.clear()
-                charityOrganizations.addAll(organizationsList)
-                organizationAdapter.notifyDataSetChanged()
-            }
+            val organizationsList = snapshot.toObjects(Charity::class.java)
+            charityOrganizations.clear()
+            charityOrganizations.addAll(organizationsList)
+            organizationAdapter.notifyDataSetChanged()
         }
     }
 
@@ -282,13 +267,10 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-
-                var storeList = snapshot.toObjects(Store::class.java)
-                stores.clear()
-                stores.addAll(storeList)
-                storesAdapter.notifyDataSetChanged()
-            }
+            val storeList = snapshot.toObjects(Store::class.java)
+            stores.clear()
+            stores.addAll(storeList)
+            storesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -316,13 +298,11 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-                val donationsList = snapshot.toObjects(Donation::class.java)
+            val donationsList = snapshot.toObjects(Donation::class.java)
 
-                donations.clear()
-                donations.addAll(donationsList)
-                adapter.notifyDataSetChanged()
-            }
+            donations.clear()
+            donations.addAll(donationsList)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -345,12 +325,10 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-                val personsList = snapshot.toObjects(Person::class.java)
-                persons.clear()
-                persons.addAll(personsList)
-                personAdapter.notifyDataSetChanged()
-            }
+            val personsList = snapshot.toObjects(Person::class.java)
+            persons.clear()
+            persons.addAll(personsList)
+            personAdapter.notifyDataSetChanged()
         }
     }
 
@@ -363,8 +341,8 @@ class WalletPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
             if (snapshot != null){
-                tv_totalDonated_walletPage.setText(snapshot.get("totalAmountGiven").toString() )
-                tv_availableCoins_walletPage.setText(snapshot.get("myCoins").toString())
+                tv_totalDonated_walletPage.text = snapshot.get("totalAmountGiven").toString()
+                tv_availableCoins_walletPage.text = snapshot.get("myCoins").toString()
                 canMakeDonations = snapshot.get("hasCC") as Boolean
             }
         }

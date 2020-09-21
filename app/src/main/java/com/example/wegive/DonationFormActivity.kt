@@ -29,14 +29,14 @@ class DonationFormActivity : AppCompatActivity() {
     private lateinit var donationManagerRef: DocumentReference
 
 
-    lateinit var etReceiverID: EditText
-    lateinit var etReceiverAmount: EditText
-    lateinit var etMemo: EditText
-    lateinit var sendButton: Button
-    lateinit var favorite: CheckBox
-    var numIds: Int = 0
-    var totalNumDonationsInSystem: Int = 0
-    var totalNumOrgDonationsInSystem: Int = 0
+    private lateinit var etReceiverID: EditText
+    private lateinit var etReceiverAmount: EditText
+    private lateinit var etMemo: EditText
+    private lateinit var sendButton: Button
+    private lateinit var favorite: CheckBox
+    private var numIds: Int = 0
+    private var totalNumDonationsInSystem: Int = 0
+    private var totalNumOrgDonationsInSystem: Int = 0
     var totalNumPersonDonationsInSystem: Int = 0
 
 
@@ -84,7 +84,7 @@ class DonationFormActivity : AppCompatActivity() {
         userRef.get().addOnSuccessListener { document->
             if (document != null){
                 numIds = document.getLong("totalNumberOfDonations")?.toInt() ?: 0
-                Log.d(TAG, "numIds is now: ${numIds}")
+                Log.d(TAG, "numIds is now: $numIds")
             } else{
                 Log.d(TAG, "no such document")
             }
@@ -119,9 +119,9 @@ class DonationFormActivity : AppCompatActivity() {
         if (etMemo.text.toString().isEmpty()) {
             memo = ""
         }
-        Toast.makeText(this, "Donate Button clicked for User ${userId}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Donate Button clicked for User $userId", Toast.LENGTH_LONG).show()
 
-        Log.i(TAG, "ReceiverID: ${recvId}, Amount: " + recvAmount + ", Memo: ${memo}")
+        Log.i(TAG, "ReceiverID: ${recvId}, Amount: " + recvAmount + ", Memo: $memo")
 
         val donation = hashMapOf(
             "receiver_id" to recvId,
@@ -134,19 +134,17 @@ class DonationFormActivity : AppCompatActivity() {
 //        if (favorite)
 //            addReceiverToFavorites(recvId)
 
-//        userRef.collection("donations").add(donation)
         userRef.collection("donations").document(orderRefID).set(donation)
-        updateUserDocument(userRef, recvAmount);
+        updateUserDocument(userRef, recvAmount)
 
         updateDonationManager(userName, recvId, recvAmount, FieldValue.serverTimestamp(), orderRefID)
 
 
 
         val intent = Intent(this@DonationFormActivity, MainPage::class.java)
-        startActivity(intent);
+        startActivity(intent)
         finish()
 
-        //https://code.luasoftware.com/tutorials/google-cloud-firestore/firestore-partial-update/
     }
 
     private fun updateDonationManager(
@@ -168,11 +166,11 @@ class DonationFormActivity : AppCompatActivity() {
 
         val docRef: DocumentReference = donationManagerRef
 
-        docRef?.update("totalNumberOfDonations", FieldValue.increment(1))
-        docRef?.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
+        docRef.update("totalNumberOfDonations", FieldValue.increment(1))
+        docRef.update("totalNumberOfDonationsToPeople", FieldValue.increment(1))
 
-        docRef?.get()
-            ?.addOnSuccessListener { document ->
+        docRef.get()
+            .addOnSuccessListener { document ->
                 if (document != null) {
                     Log.d(TAG, "Document data: ${document.data}")
                     val oldAmountGiven = document.get("totalGivenToPeople").toString().toInt()
@@ -182,7 +180,7 @@ class DonationFormActivity : AppCompatActivity() {
                     Log.d(TAG, "No such document!")
                 }
             }
-            ?.addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
+            .addOnFailureListener { exception -> Log.e(TAG, "Got failed with ", exception) }
     }
 
     private fun addReceiverToFavorites(recvId: String) {
@@ -231,24 +229,13 @@ class DonationFormActivity : AppCompatActivity() {
 
     private fun areAllFieldsLegal(): Boolean {
         Log.i(TAG, "areAllFieldsLegal called!")
-        var check1: Boolean = true
-        var check2: Boolean = true
-        var check3: Boolean = true
+        var check1 = true
+        var check2 = true
+        var check3 = true
 
 
         val recvId: String = etReceiverID.text.toString()
         val recvAmount: Float? = etReceiverAmount.text.toString().toFloatOrNull()
-        var memo: String = etMemo.toString()
-
-
-        if (etMemo.text.toString().isEmpty()) {
-            memo = ""
-        }
-
-        //To check values as expected:
-//        Log.i(TAG, "Value of recvAmount: " + recvAmount)
-//        Log.i(TAG, "Value of recvId: ${recvId}")
-//        Log.i(TAG, "Value of memo: ${memo}")
 
         if (recvId.isEmpty()) {
             Log.i(TAG, "Error: Recipient ID cannot be empty!")
@@ -275,7 +262,7 @@ class DonationFormActivity : AppCompatActivity() {
             check3 = false
         }
 
-        var res: Boolean = check1 && check2 && check3
+        val res: Boolean = check1 && check2 && check3
         Log.i(TAG, "areAllFieldsLegal returning: " + res)
         return (res)
     }

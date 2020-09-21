@@ -1,5 +1,6 @@
 package com.example.wegive
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.*
 import android.os.Bundle
@@ -41,7 +42,7 @@ class MainPage : AppCompatActivity() {
 
         Log.i(TAG, "Inside MainPage onCreate")
         Log.d(TAG, "firebaseObj.getUserId: ${firebaseObj.getUserID()}")
-        var imageArray = arrayOf(
+        val imageArray = arrayOf(
             R.drawable.image1,
             R.drawable.image2,
             R.drawable.image3,
@@ -55,9 +56,9 @@ class MainPage : AppCompatActivity() {
 
 
         btn_settings.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View): Unit {
+            override fun onClick(view: View) {
                 val intent = Intent(this@MainPage, SettingsPage::class.java)
-                startActivity(intent);
+                startActivity(intent)
             }
         })
 
@@ -67,22 +68,22 @@ class MainPage : AppCompatActivity() {
 //        }
 
         btn_wallet.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View): Unit {
+            override fun onClick(view: View) {
                 val intent = Intent(this@MainPage, WalletPage::class.java)
-                startActivity(intent);
+                startActivity(intent)
             }
         })
 
         imageView5.setOnClickListener {
             val intent = Intent(this, DonationHistory::class.java)
-            startActivity(intent);
+            startActivity(intent)
             finish()
         }
 
         btn_scan.setOnClickListener {
             if (canMakeDonations){
                 val intent = Intent(this , ScanActivity::class.java)
-                startActivity(intent);
+                startActivity(intent)
             } else{
                 Toast.makeText(this,"Please enter credit card information in order to make a donation",
                     Toast.LENGTH_LONG).show()
@@ -122,26 +123,23 @@ class MainPage : AppCompatActivity() {
             "date_donation",
             Query.Direction.DESCENDING
         ).addSnapshotListener { snapshot, exception ->
-            Log.i(TAG, "Inside donationsReference.addSnapshotListener")
-
             if (exception!= null || snapshot == null){
                 Log.e(TAG, "Exception when querying donations", exception)
                 return@addSnapshotListener
             }
 
 
-            if (snapshot != null) {
-                val donationsList = snapshot.toObjects(Donation::class.java)
-                donations.clear()
-                donations.addAll(donationsList)
-                adapter.notifyDataSetChanged()
-                for (donation in donationsList){
-                    Log.i(TAG, "Donation: ${donation}")
-                }
+            val donationsList = snapshot.toObjects(Donation::class.java)
+            donations.clear()
+            donations.addAll(donationsList)
+            adapter.notifyDataSetChanged()
+            for (donation in donationsList){
+                Log.i(TAG, "Donation: ${donation}")
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun listenToUser() {
         firebaseObj.getUserRef().addSnapshotListener { snapshot, e ->
             //if there's an exception, skip
@@ -150,13 +148,12 @@ class MainPage : AppCompatActivity() {
                 return@addSnapshotListener
             }
             if (snapshot != null){
-                tv_helloPerson.setText("Hello " + snapshot.get("userName").toString())
-                tv_totalNumberOfDonations.setText(snapshot.get("totalAmountGiven").toString())
-                tv_weGiveCoins.setText(snapshot.get("myCoins").toString())
-                //val photo = getCroppedBitmap()
-                var hasProfileImageURL = !snapshot.get("profile_image_url").toString().isNullOrEmpty()
+                tv_helloPerson.text = "Hello " + snapshot.get("userName").toString()
+                tv_totalNumberOfDonations.text = snapshot.get("totalAmountGiven").toString()
+                tv_weGiveCoins.text = snapshot.get("myCoins").toString()
+                val hasProfileImageURL = snapshot.get("profile_image_url").toString().isNotEmpty()
                 if (hasProfileImageURL){
-                    Glide.with(getApplicationContext()).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
+                    Glide.with(applicationContext).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)
                 } else{
                     userProfilePic_mainPage.setImageResource(R.drawable.profileplaceholder)
                 }
@@ -174,18 +171,15 @@ class MainPage : AppCompatActivity() {
         val color = -0xbdbdbe
         val paint = Paint()
         val rect = Rect(0, 0, bitmap.width, bitmap.height)
-        paint.setAntiAlias(true)
+        paint.isAntiAlias = true
         canvas.drawARGB(0, 0, 0, 0)
-        paint.setColor(color)
-        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.color = color
         canvas.drawCircle(
             (bitmap.width / 2).toFloat(), (bitmap.height / 2).toFloat(),
             (bitmap.width / 2).toFloat(), paint
         )
-        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(bitmap, rect, rect, paint)
-        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
-        //return _bmp;
         return output
     }
 

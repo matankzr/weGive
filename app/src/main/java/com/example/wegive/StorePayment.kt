@@ -38,7 +38,7 @@ class StorePayment: AppCompatActivity() {
         }
         btn_back2.setOnClickListener {
             val intent = Intent(this@StorePayment, WalletPage::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
         btn_0.setOnClickListener {
             if(paymentString != "") {
@@ -105,18 +105,18 @@ class StorePayment: AppCompatActivity() {
             paymentAmount = paymentString.toDouble()
         }
 
-        var myCoins: Double = 0.0
+        var myCoins: Double
         firebaseObj.getUserRef().get().addOnSuccessListener { document ->
             if (document != null) {
                 myCoins = document.get("myCoins") as Double
-                val foo: Any? = document.get("myCoins")
+                document.get("myCoins")
 
                 if (paymentAmount > 0 && paymentAmount <= myCoins) {
                     Log.d(TAG, "Payment successful! Payment amount is: $paymentAmount my coins are: $myCoins")
                     val docRef: DocumentReference = firebaseObj.getUserRef()
-                    docRef?.update("myCoins", FieldValue.increment(-paymentAmount))
+                    docRef.update("myCoins", FieldValue.increment(-paymentAmount))
                     val intent = Intent(this, MainPage::class.java)
-                    startActivity(intent);
+                    startActivity(intent)
                     finish()
                 } else {
                     Toast.makeText(

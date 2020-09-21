@@ -3,15 +3,9 @@ package com.example.wegive
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.telephony.MbmsDownloadSession
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_main_page.*
+
 
 
 private const val TAG = "qrActivity"

@@ -28,7 +28,7 @@ class DonationHistory : AppCompatActivity() {
 
         btn_back_donationsHistory.setOnClickListener {
             val intent = Intent(this, MainPage::class.java)
-            startActivity(intent);
+            startActivity(intent)
             finish()
         }
 
@@ -47,14 +47,12 @@ class DonationHistory : AppCompatActivity() {
                 return@addSnapshotListener
             }
 
-            if (snapshot != null) {
-                val donationsList = snapshot.toObjects(Donation::class.java)
-                donations.clear()
-                donations.addAll(donationsList)
-                adapter.notifyDataSetChanged()
-                for (donation in donationsList){
-                    Log.i(TAG, "Donation: ${donation}")
-                }
+            val donationsList = snapshot.toObjects(Donation::class.java)
+            donations.clear()
+            donations.addAll(donationsList)
+            adapter.notifyDataSetChanged()
+            for (donation in donationsList){
+                Log.i(TAG, "Donation: $donation")
             }
         }
     }

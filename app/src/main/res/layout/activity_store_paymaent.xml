@@ -12,7 +12,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:background="@null"
-        android:text="1"
+        android:text="@string/_1"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/btn_2"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -38,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:background="@null"
 
-        android:text="9"
+        android:text="@string/_9"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/btn_8"
         app:layout_constraintTop_toBottomOf="@+id/btn_6" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@null"
-        android:text="7"
+        android:text="@string/_7"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/btn_8"
         app:layout_constraintTop_toBottomOf="@+id/btn_4" />
@@ -62,7 +62,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@null"
-        android:text="4"
+        android:text="@string/_4"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/btn_5"
         app:layout_constraintTop_toBottomOf="@+id/btn_1" />
@@ -75,7 +75,7 @@
         android:layout_marginTop="10dp"
         android:background="@null"
 
-        android:text="6"
+        android:text="@string/_6"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/btn_5"
         app:layout_constraintTop_toBottomOf="@+id/btn_3" />
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@null"
-        android:text="0"
+        android:text="@string/_0"
 
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@null"
-        android:text="8"
+        android:text="@string/_8"
 
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@null"
-        android:text="5"
+        android:text="@string/_5"
 
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:background="@null"
-        android:text="2"
+        android:text="@string/_2"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,7 @@
         android:layout_height="12dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="13dp"
-        android:tint="#99BDBABA"
+        app:tint="#99BDBABA"
         app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintEnd_toStartOf="@+id/textView17"
         app:layout_constraintHorizontal_bias="1.0"
@@ -154,7 +154,8 @@
         app:layout_constraintEnd_toStartOf="@+id/settingsPage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/backshape" />
+        app:srcCompat="@drawable/backshape"
+        tools:ignore="UnknownIdInLayout" />
 
     <ImageView
         android:id="@+id/imageView25"
@@ -171,7 +172,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Store Name"
+        android:text="@string/store_name"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView25"
         app:layout_constraintStart_toStartOf="@+id/imageView25"
@@ -182,7 +183,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Store Address"
+        android:text="@string/store_address"
         app:layout_constraintEnd_toEndOf="@+id/imageView25"
         app:layout_constraintStart_toStartOf="@+id/imageView25"
         app:layout_constraintTop_toBottomOf="@+id/tv_storename" />
@@ -192,7 +193,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="0.00"
+        android:text="@string/_0_00"
         android:textColor="#99BDBABA"
         android:textSize="46sp"
         android:textStyle="bold"
@@ -207,7 +208,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
         android:background="@null"
-        android:text="3"
+        android:text="@string/_3"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/btn_2"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -230,7 +231,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="#1576EC"
-        android:text="PAY"
+        android:text="@string/pay"
         android:textColor="#FFFEFE"
         android:textSize="18sp"
         android:textStyle="bold"

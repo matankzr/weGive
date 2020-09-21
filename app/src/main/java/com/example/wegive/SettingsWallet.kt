@@ -26,7 +26,7 @@ class SettingsWallet : AppCompatActivity() {
         getDataOnce()
 
         tv_deletecard.setOnClickListener {
-            removeCardInformation();
+            removeCardInformation()
             showWhenDoesntHaveCC()
         }
 
@@ -38,7 +38,7 @@ class SettingsWallet : AppCompatActivity() {
             if (allFieldsValid()){
                 val last4: String = cardNumber.text.toString().takeLast(4)
                 updateUserCCInfo(last4)
-                tv_CreditNumberLastFour.setText(last4)
+                tv_CreditNumberLastFour.text = last4
                 cardNumber.text.clear()
                 month.text.clear()
                 et_year.text.clear()
@@ -49,7 +49,7 @@ class SettingsWallet : AppCompatActivity() {
 
         btn_back.setOnClickListener {
             val intent = Intent(this, SettingsPage::class.java)
-            startActivity(intent);
+            startActivity(intent)
             finish()
         }
 
@@ -165,16 +165,15 @@ class SettingsWallet : AppCompatActivity() {
 
     private fun getDataOnce(){
         Log.d(TAG, "just entered getDataOnce")
-        firebaseObj.getUserRef()?.get()?.addOnSuccessListener { documentSnapshot ->
+        firebaseObj.getUserRef().get().addOnSuccessListener { documentSnapshot ->
             Log.i(TAG, "Just entered addOnSuccessListener")
             val user=documentSnapshot.toObject(User::class.java)
             hasCreditCardInfo = user?.hasCC!!
             if (hasCreditCardInfo) {
-                last4Digits = user?.last4
+                last4Digits = user.last4
                 Log.d(TAG, "user DOES have CC")
                 showWhenHasCC()
-            }
-            else {
+            } else {
                 Log.d(TAG, "user DOES NOT have CC")
                 showWhenDoesntHaveCC()
             }

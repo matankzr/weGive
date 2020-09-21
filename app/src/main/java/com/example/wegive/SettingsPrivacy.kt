@@ -12,12 +12,10 @@ class SettingsPrivacy : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.privacy_policy)
 
-        btn_back.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(view: View): Unit {
-                val intent = Intent(this@SettingsPrivacy, SettingsPage::class.java)
-                startActivity(intent);
-            }
-        })
+        btn_back.setOnClickListener {
+            val intent = Intent(this@SettingsPrivacy, SettingsPage::class.java)
+            startActivity(intent)
+        }
 
     }
 }
