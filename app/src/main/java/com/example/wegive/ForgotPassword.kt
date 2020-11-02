@@ -18,9 +18,7 @@ import kotlinx.android.synthetic.main.activity_settings_page.*
 private const val TAG = "ForgotPassword"
 
 class ForgotPassword: AppCompatActivity() {
-    //private val firebaseObj: FirebaseUtil = FirebaseUtil()
 
-    //private var auth:FirebaseAuth? = null
     private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {

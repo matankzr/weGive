@@ -150,7 +150,8 @@ class MainPage : AppCompatActivity() {
             if (snapshot != null){
                 tv_helloPerson.text = "Hello " + snapshot.get("userName").toString()
                 tv_totalNumberOfDonations.text = snapshot.get("totalAmountGiven").toString()
-                tv_weGiveCoins.text = snapshot.get("myCoins").toString()
+                tv_weGiveCoins.text = "%.2f".format(snapshot.get("myCoins"))
+//                tv_weGiveCoins.text = snapshot.get("myCoins").toString()
                 val hasProfileImageURL = snapshot.get("profile_image_url").toString().isNotEmpty()
                 if (hasProfileImageURL){
                     Glide.with(applicationContext).load(snapshot.get("profile_image_url")).circleCrop().into(userProfilePic_mainPage)

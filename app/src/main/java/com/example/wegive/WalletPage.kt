@@ -342,7 +342,8 @@ class WalletPage : AppCompatActivity() {
             }
             if (snapshot != null){
                 tv_totalDonated_walletPage.text = snapshot.get("totalAmountGiven").toString()
-                tv_availableCoins_walletPage.text = snapshot.get("myCoins").toString()
+//                tv_availableCoins_walletPage.text = snapshot.get("myCoins").toString()
+                tv_availableCoins_walletPage.text = "%.2f".format(snapshot.get("myCoins"))
                 canMakeDonations = snapshot.get("hasCC") as Boolean
             }
         }

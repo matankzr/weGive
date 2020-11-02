@@ -149,6 +149,7 @@ class DonationView: AppCompatActivity() {
                     val oldAmountGiven = document.get("totalAmountGiven").toString().toInt()
                     val amountToAdd = recvAmount.roundToInt()
                     docRef.update("totalAmountGiven",oldAmountGiven+amountToAdd)
+
                     val addToMyCoins = amountToAdd*0.05
                     docRef.update("myCoins", addToMyCoins)
                 } else {
